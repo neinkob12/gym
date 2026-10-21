@@ -9,7 +9,7 @@ Du erbst von deinem Onkel eine heruntergekommene Muckibude. Alte Geräte, Dreck,
 Mit Josef, dem einzigen Mitarbeiter, räumst du auf, reparierst, stellst Personal ein, kaufst bessere Geräte und schaltest
 Protein Bar, Kursraum und Wellness frei. Ziel: aus dem Ranz-Gym das beste Gym der Stadt machen.
 
-Handyspiel im Hochformat, Pixel Art schräg von oben (3/4), Idle-Tycoon mit aktivem Start.
+Handyspiel im Hochformat, Low-Poly-3D in isometrischer Ansicht, Idle-Tycoon mit aktivem Start.
 
 ## 2. Story und Ton
 
