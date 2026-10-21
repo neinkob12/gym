@@ -1,6 +1,6 @@
 # Tech Stack
 
-Entscheidung für Gym Tycoon. Anforderungen: Hochformat-Handyspiel, viele laufende Figuren auf einer Pixel-Karte,
+Entscheidung für Gym Tycoon. Anforderungen: Hochformat-Handyspiel, viele laufende Figuren in einer isometrischen 3D-Szene,
 spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 
 ## Entscheidung
@@ -11,14 +11,14 @@ spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 | Engine | **Three.js** | 3D im Browser mit orthografischer Iso-Kamera, Licht und Schatten. Passt zum Low-Poly-Look (Hotel Empire Tycoon). Läuft auf Vercel und per Capacitor auf dem Handy. Prototyp nutzt r128, im echten Projekt die aktuelle Version per npm. |
 | Build | **Vite** | schnell, gleiches Setup wie Matcha Maker |
 | Menüs | HTML/CSS-Overlay mit **Preact** | Einstellen-Menü, Shop, Statistik sind Listen und Karten. Das ist mit HTML viel einfacher und schärfer als in der Engine. |
-| Spiellogik | reines TypeScript in `src/sim/`, ohne Phaser | testbar, und Offline-Einnahmen lassen sich ohne Grafik durchrechnen |
+| Spiellogik | reines TypeScript in `src/sim/`, ohne Three.js | testbar, und Offline-Einnahmen lassen sich ohne Grafik durchrechnen |
 | Tests | **Vitest** | |
 | Speichern | `localStorage` im Web, `@capacitor/preferences` auf dem Handy | lokal, kein Login |
 | Handy-App | **Capacitor** | packt das Web-Spiel als echte iOS- und Android-App |
 | iOS-Build | **Codemagic** (oder GitHub Actions auf macOS) nach **TestFlight** | du brauchst dafür keinen eigenen Mac |
 | Web | **Vercel** | jeder Push gibt eine Vorschau-URL, die du sofort am Handy öffnen kannst |
 | Grafik | **Low-Poly per Code**: Geräte und Figuren aus einfachen 3D-Formen, Farben aus einer Palette. Später optional Modelle aus Blender (glTF) | einheitlicher Stil, Figuren-Baukasten mit beliebig vielen Varianten, keine Zeichenarbeit nötig |
-| Sound | generierte Chiptune-Effekte (jsfxr-Stil), Musik später | |
+| Sound | fröhliche Casual-Effekte (Kasse, Hanteln, Laufband), Musik später | passt zum 3D-Look besser als Chiptune |
 | Sprachen | eigene `strings.de.ts` / `strings.en.ts` | |
 | Später | RevenueCat (In-App-Käufe), AdMob (Rewarded Ads) über Capacitor-Plugins | erst wenn das Spiel steht |
 

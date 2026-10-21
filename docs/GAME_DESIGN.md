@@ -126,7 +126,7 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 - Umgebung: Das Gym steht in einer kleinen Stadt mit Straßen, fahrenden Autos, Bäumen und Nachbarhäusern.
 - Animationen nach Vorbild: Leute laufen und trainieren sichtbar, Geldscheine fliegen beim Bezahlen hoch, kaputte Geräte rauchen.
 - Animationen: Laufen in jede Richtung, eigene Trainings-Pose pro Gerät (Bankdrücken, Kniebeugen, Curls, Latzug, Laufen, Trinken).
-- Sound: Chiptune-Musik plus Gym-Geräusche (Hanteln, Laufband, Kasse).
+- Sound: fröhliche Casual-Musik plus Gym-Geräusche (Hanteln, Laufband, Kasse).
 - Sprachen: Deutsch und Englisch von Anfang an.
 - Speichern: lokal auf dem Gerät, kein Login. Cloud-Save später.
 - Tutorial: Josef führt durch die ersten Minuten.
