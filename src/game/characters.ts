@@ -66,7 +66,7 @@ export class CharacterView {
     const t = this.t, m = this.look.muscle;
     const phase = eq?.phase ?? 0;
     const j = zero();
-    const armsOut = 0.07 + 0.2 * m;
+    const armsOut = 0.03 + 0.12 * m;
     j.shOut = pair(armsOut); j.elb = pair(0.12);
     let yaw = p.yaw, x = p.x, y = 0, z = p.z, pitch = 0;
     const show = { db: false, bar: false, wrench: false, phone: false };

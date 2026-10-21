@@ -3,9 +3,8 @@
 import * as THREE from "three";
 import type { Person } from "../sim/game";
 import { makeRng, pickOf, range, type Rng } from "../sim/rng";
-import { PAL } from "./palette";
 
-export type Hair = "bald" | "buzz" | "short" | "quiff" | "bun" | "ponytail" | "long";
+export type Hair = "bald" | "buzz" | "short" | "quiff" | "mop" | "bun" | "ponytail" | "long";
 export type Beard = "none" | "stubble" | "full" | "mustache";
 export type Top = "tank" | "stringer" | "tee" | "compression" | "crop" | "bra" | "hoodie" | "polo" | "robe";
 export type Bottom = "shorts" | "bike" | "joggers" | "leggings" | "robe";
@@ -22,9 +21,12 @@ export interface Look {
   cap: string | null;
   headband: string | null;
   headphones: boolean;
+  earbuds: boolean;
   top: Top;
   topCol: string;
   accent: string;
+  /** kleines Logo am linken Ärmel statt auf der Brust */
+  sleeveLogo: boolean;
   bottom: Bottom;
   botCol: string;
   socks: boolean;
@@ -43,11 +45,11 @@ const SHOES = ["#f4f6f8", "#1f2329", "#3b8fe0", "#14b8a6", "#b03a5b", "#9aa3ad"]
 
 const chance = (r: Rng, p: number) => r() < p;
 
-/** Josef, 18: schlank-sportlich, kurze dunkle Haare, blaues Mitarbeiter-Polo */
+/** Josef, 18, nach Foto: braune Wuschelfrisur mit Pony, Brille, AirPods, schwarzes Shirt, Handgelenkbandagen */
 export const JOSEF: Look = {
-  female: false, muscle: 0.45, skin: "#e8b892", hairCol: "#2f2520", hair: "quiff", beard: "stubble", eyes: "plain",
-  cap: null, headband: null, headphones: false, top: "polo", topCol: PAL.staff, accent: "#ffffff",
-  bottom: "joggers", botCol: "#262c34", socks: false, shoe: "#1f2329", sole: "#e9ecef", belt: false, wristbands: null, phone: false,
+  female: false, muscle: 0.6, skin: "#ecc2a2", hairCol: "#4a3123", hair: "mop", beard: "none", eyes: "glasses",
+  cap: null, headband: null, headphones: false, earbuds: true, top: "tee", topCol: "#17191d", accent: "#ffffff", sleeveLogo: true,
+  bottom: "joggers", botCol: "#2e3238", socks: false, shoe: "#1f2329", sole: "#e9ecef", belt: false, wristbands: "#101215", phone: false,
 };
 
 export function lookFor(type: Person["type"], seed: number): Look {
@@ -58,10 +60,10 @@ export function lookFor(type: Person["type"], seed: number): Look {
   const hairCol = pickOf(r, HAIR);
   const l: Look = {
     female, muscle: 0.3, skin: pickOf(r, SKIN), hairCol,
-    hair: female ? pickOf(r, ["ponytail", "bun", "long", "long", "short"] as const) : pickOf(r, ["buzz", "short", "quiff", "bald", "short"] as const),
+    hair: female ? pickOf(r, ["ponytail", "bun", "long", "long", "short"] as const) : pickOf(r, ["buzz", "short", "quiff", "bald", "short", "mop"] as const),
     beard: female ? "none" : pickOf(r, ["none", "none", "stubble", "full", "mustache"] as const),
-    eyes: "plain", cap: null, headband: null, headphones: false,
-    top: "tee", topCol: pickOf(r, DARK), accent: "#ffffff", bottom: "joggers", botCol: pickOf(r, DARK),
+    eyes: "plain", cap: null, headband: null, headphones: false, earbuds: false,
+    top: "tee", topCol: pickOf(r, DARK), accent: "#ffffff", sleeveLogo: false, bottom: "joggers", botCol: pickOf(r, DARK),
     socks: false, shoe: pickOf(r, SHOES), sole: "#d5dade", belt: false, wristbands: null, phone: false,
   };
   if (l.shoe === "#f4f6f8") l.sole = "#b8c0c9";
@@ -92,7 +94,8 @@ export function lookFor(type: Person["type"], seed: number): Look {
       l.bottom = female ? pickOf(r, ["bike", "leggings"] as const) : "shorts";
       l.botCol = pickOf(r, DARK);
       l.headband = chance(r, 0.5) ? pickOf(r, ["#e9ecef", "#3b8fe0", "#1f2329", "#14b8a6"]) : null;
-      l.headphones = !l.headband && chance(r, 0.6);
+      l.headphones = !l.headband && chance(r, 0.5);
+      l.earbuds = !l.headband && !l.headphones && chance(r, 0.5);
       l.shoe = pickOf(r, ["#3b8fe0", "#14b8a6", "#b03a5b", "#f4f6f8"]);
       l.sole = "#ffffff";
       l.socks = !female;
@@ -137,8 +140,12 @@ export function faceTexture(l: Look): THREE.Texture {
 
   // Haaransatz vorne
   k.fillStyle = l.hairCol;
-  const fringe = { bald: 0, buzz: 12, short: 20, quiff: 22, bun: 18, ponytail: 18, long: 24 }[l.hair];
+  const fringe = { bald: 0, buzz: 12, short: 20, quiff: 22, mop: 30, bun: 18, ponytail: 18, long: 24 }[l.hair];
   if (fringe) k.fillRect(0, 0, 128, fringe);
+  if (l.hair === "mop") {
+    // fransiger Pony bis knapp über die Brille
+    for (const [x, w, h] of [[0, 18, 14], [16, 20, 10], [34, 16, 16], [52, 22, 8], [72, 18, 14], [92, 20, 9], [110, 18, 16]] as const) k.fillRect(x, 30, w, h);
+  }
   if (l.hair === "long") { k.fillRect(0, 0, 14, 84); k.fillRect(114, 0, 14, 84); }
   if (l.hair === "quiff") k.fillRect(10, 20, 44, 6);
 

@@ -126,10 +126,10 @@ export function buildFigure(l: Look): Rig {
     body.box(0, absH + chestH * 0.5, chestD / 2 + 0.002, chestW * 1.3, 0.008, 0.004, line);
     body.box(0, absH + chestH * 0.72, chestD / 2 + 0.002, 0.008, chestH * 0.42, 0.004, line);
   }
-  if (m > 0.55) {
-    // Nackenmuskeln
+  if (m > 0.7) {
+    // Nackenmuskeln, hinter dem Hals
     const trap = shortSleeve || longSleeve ? torsoCol : skin;
-    body.box(0, chestTop + 0.015, -0.01, 0.12 + 0.12 * m, 0.03 + 0.03 * m, chestD * 0.6, trap);
+    body.box(0, chestTop + 0.012, -chestD * 0.22, 0.12 + 0.12 * m, 0.025 + 0.025 * m, chestD * 0.45, trap);
   }
   body.box(0, chestTop + 0.03, 0, 0.09 + 0.03 * m, 0.06, 0.09, skin);
   if (covers("polo")) {
@@ -144,7 +144,7 @@ export function buildFigure(l: Look): Rig {
     body.box(0, absH - 0.01, 0, waistW * 2 + 0.02, 0.03, chestD * 0.9 + 0.02, l.accent);
     body.box(0, absH + chestH * 0.75, chestD / 2 + 0.003, 0.05, chestH * 0.5, 0.004, skin);
   }
-  if (covers("tee") || covers("compression") || covers("polo")) {
+  if ((covers("tee") || covers("compression") || covers("polo")) && !l.sleeveLogo) {
     body.box(-chestW * 0.45, absH + chestH * 0.72, chestD / 2 + 0.003, 0.03, 0.012, 0.004, l.accent);
   }
   body.build(spine);
@@ -168,6 +168,7 @@ export function buildFigure(l: Look): Rig {
     up.seg(0, 0, ua, ua, Math.min(-0.02, sleeveEnd), -LU, skin);
     if (shortSleeve) up.box(0, sleeveEnd + 0.006, 0, ua + 0.012, 0.014, ua + 0.012, covers("polo") ? l.accent : sleeveCol);
     if (m > 0.4) up.box(0, -0.115, ua / 2, ua * 0.75, 0.08, 0.025 + 0.035 * m, longSleeve ? sleeveCol : skin);
+    if (l.sleeveLogo && i === 0) up.box(ua / 2 + 0.003, -0.06, 0, 0.004, 0.018, 0.035, l.accent);
     up.build(sj);
     const ej = group(sj, 0, -LU, 0);
     const lo = parts();
@@ -231,9 +232,16 @@ function buildHead(head: THREE.Group, l: Look) {
     p.box(0, top + thick / 2, -0.004, W + e, thick, D + e * 0.6, hc);
     const backLen = l.hair === "long" ? H + 0.14 : l.hair === "buzz" ? H * 0.55 : H * 0.7;
     p.box(0, top - backLen / 2 + 0.005, -D / 2 - e / 2, W + e, backLen, e, hc);
-    const sideLen = l.hair === "long" ? H + 0.02 : l.hair === "buzz" ? 0.05 : 0.07;
+    const sideLen = l.hair === "long" ? H + 0.02 : l.hair === "buzz" ? 0.05 : l.hair === "mop" ? 0.1 : 0.07;
     for (const s of [1, -1]) p.box(s * (W / 2 + e / 2), top - sideLen / 2, -0.02, e, sideLen, D - 0.03, hc);
     if (l.hair === "quiff") p.box(0, top + 0.045, D * 0.18, W * 0.8, 0.04, D * 0.55, hc);
+    if (l.hair === "mop") {
+      // volles, unordentliches Deckhaar mit Stufen
+      p.box(0, top + 0.04, 0, W + 0.02, 0.025, D + 0.01, hc);
+      p.box(0.04, top + 0.06, 0.03, W * 0.45, 0.02, D * 0.5, hc);
+      p.box(-0.05, top + 0.055, -0.03, W * 0.4, 0.02, D * 0.45, hc);
+      p.box(0, top - 0.02, D / 2 + 0.006, W + 0.014, 0.05, 0.012, hc);
+    }
     if (l.hair === "bun") p.box(0, top + 0.05, -D * 0.25, 0.08, 0.07, 0.08, hc);
     if (l.hair === "ponytail") {
       p.box(0, top - 0.02, -D / 2 - 0.03, 0.06, 0.05, 0.05, hc);
@@ -250,5 +258,7 @@ function buildHead(head: THREE.Group, l: Look) {
     p.box(0, top + 0.035, 0, W + 0.05, 0.02, 0.03, "#1f2329");
     for (const s of [1, -1]) p.box(s * (W / 2 + 0.025), y, 0, 0.03, 0.08, 0.07, "#1f2329");
   }
+  if (l.earbuds) for (const s of [1, -1]) p.box(s * (W / 2 + 0.024), y - 0.02, 0.005, 0.016, 0.04, 0.016, "#f4f6f8");
+  if (l.eyes === "glasses") for (const s of [1, -1]) p.box(s * (W / 2 + 0.006), y + 0.02, 0.03, 0.006, 0.01, 0.12, "#1d2228");
   p.build(head);
 }
