@@ -26,7 +26,7 @@ export interface Person {
   id: number;
   staff: boolean;
   type: CustomerType | "staff";
-  /** Index des Figurenmodells */
+  /** Seed fürs Aussehen der Figur */
   model: number;
   x: number;
   z: number;
@@ -103,7 +103,8 @@ export interface SaveData {
   campaign: Campaign | null;
 }
 
-const CUSTOMER_MODELS = 12;
+/** Zufallswert fürs Aussehen der Kunden (Körperbau, Frisur, Outfit) */
+const CUSTOMER_MODELS = 100000;
 const center = (t: Tile) => ({ x: t[0] + 0.5, z: t[1] + 0.5 });
 export const eqById = (g: Game, id: string) => g.equipment.find((e) => e.def.id === id)!;
 
