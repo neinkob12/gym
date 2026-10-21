@@ -14,6 +14,7 @@ Status: **Planung** (Etappe E0).
 | `docs/ROADMAP.md` | Etappen bis TestFlight und Store |
 | `docs/RECHERCHE.md` | Vorlagen, Balancing-Wissen, Skills, Quellen |
 | `docs/OFFENE_FRAGEN.md` | Was noch entschieden werden muss |
+| `docs/VERGLEICH_HOTEL_TYCOON.md` | Prototyp vs. Vorbild vs. Endversion, mit Fragen |
 | `prototypes/3d/index.html` | Aktueller Prototyp: Low-Poly-3D nach Vorbild Hotel Empire Tycoon |
 | `prototypes/hell/index.html` | Pixel-Prototyp hell, schräg vs. isometrisch (abgelöst) |
 | `prototypes/stil/index.html` | Erster Prototyp (Modern vs. Neon 80er, verworfen) |
