@@ -8,18 +8,18 @@ spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 | Bereich | Wahl | Warum |
 | --- | --- | --- |
 | Sprache | TypeScript (strict) | wie in deinen anderen Projekten |
-| Engine | **Three.js** | 3D im Browser mit orthografischer Iso-Kamera, Licht und Schatten. Passt zum Low-Poly-Look (Hotel Empire Tycoon). Läuft auf Vercel und per Capacitor auf dem Handy. Prototyp nutzt r128, im echten Projekt die aktuelle Version per npm. |
+| Engine | **Three.js** | 3D im Browser mit orthografischer Iso-Kamera, Licht und Schatten. Passt zum Low-Poly-Look (Hotel Empire Tycoon). Läuft auf Vercel und per Capacitor auf dem Handy. Projekt nutzt die aktuelle Version per npm (0.186). |
 | Build | **Vite** | schnell, gleiches Setup wie Matcha Maker |
-| Menüs | HTML/CSS-Overlay mit **Preact** | Einstellen-Menü, Shop, Statistik sind Listen und Karten. Das ist mit HTML viel einfacher und schärfer als in der Engine. |
+| Menüs | HTML/CSS-Overlay, schlanke DOM-Module in TypeScript (Preact erst, wenn die Menüs deutlich wachsen) | Listen und Karten sind mit HTML einfacher und schärfer als in der Engine, und ohne Framework bleibt das Paket klein. |
 | Spiellogik | reines TypeScript in `src/sim/`, ohne Three.js | testbar, und Offline-Einnahmen lassen sich ohne Grafik durchrechnen |
 | Tests | **Vitest** | |
 | Speichern | `localStorage` im Web, `@capacitor/preferences` auf dem Handy | lokal, kein Login |
 | Handy-App | **Capacitor** | packt das Web-Spiel als echte iOS- und Android-App |
-| iOS-Build | **Codemagic** (oder GitHub Actions auf macOS) nach **TestFlight** | du brauchst dafür keinen eigenen Mac |
+| iOS-Build | **Xcode auf deinem Mac** mit kostenloser Apple-ID (Anleitung `docs/XCODE.md`); später **Codemagic** nach **TestFlight** | sofort spielbar auf dem eigenen iPhone, TestFlight erst mit Developer Account |
 | Web | **Vercel** | jeder Push gibt eine Vorschau-URL, die du sofort am Handy öffnen kannst |
 | Grafik | **CC0-Modellpakete als Basis** (Kenney, Quaternius: Möbel, Stadt, Autos, Figuren mit Animationen; frei auch für kommerzielle Spiele, keine Namensnennung nötig), umgefärbt auf unsere Palette. Gym-Geräte, die es dort nicht gibt, bauen wir selbst (Blender oder per Code), Format glTF | einheitlicher Stil, Figuren-Baukasten mit beliebig vielen Varianten, keine Zeichenarbeit nötig |
 | Sound | fröhliche Casual-Effekte (Kasse, Hanteln, Laufband), Musik später | passt zum 3D-Look besser als Chiptune |
-| Sprachen | eigene `strings.de.ts` / `strings.en.ts` | |
+| Sprachen | `src/content/strings.ts` (Deutsch), Englisch als zweite Datei mit gleicher Struktur | |
 | Später | RevenueCat (In-App-Käufe), AdMob (Rewarded Ads) über Capacitor-Plugins | erst wenn das Spiel steht |
 
 ## Warum nicht React Native, Godot oder Unity
@@ -45,9 +45,11 @@ src/
     config.ts   # ALLE Balancing-Werte
     __tests__/
   game/         # Three.js: Szene, Kamera, Licht, Eingabe
-  ui/           # Preact-Menüs (Personal, Shop, Statistik, Einstellungen)
-  content/      # Texte DE/EN, Kunden- und Mitarbeiterdaten
-  models/       # Low-Poly-Bausteine für Geräte, Figuren, Stadt
+  ui/           # HUD und Menüs (DOM)
+  content/      # Texte
+  lib/          # Speichern, Vibration
+public/models/  # Kenney-Modelle (CC0)
+ios/            # Xcode-Projekt (Capacitor)
 docs/
 prototypes/
 ```
@@ -55,7 +57,7 @@ prototypes/
 ## Regeln, die von Anfang an gelten
 
 - Alle Balancing-Werte nur in `src/sim/config.ts`.
-- Spiellogik importiert nie Three.js oder Preact.
+- Spiellogik importiert nie Three.js oder DOM-Code.
 - Spielzeit wird aus Zeitstempeln berechnet, damit Offline-Fortschritt stimmt.
 - Sichtbare Texte nur in den String-Dateien.
 - Erst am Handy testen, dann als fertig melden.

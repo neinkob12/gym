@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Gym Tycoon">
+  <meta name="theme-color" content="#dfe4e8">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon-180.png">
+  <link rel="icon" href="./icon-192.png">
+  <title>Gym Tycoon</title>
+</head>
+<body>
+<div id="app">
+  <canvas id="gl"></canvas>
+  <canvas id="overlay"></canvas>
+
+  <div class="hud" aria-live="polite">
+    <div class="hud-row">
+      <div class="hud-item"><span class="k">€</span><span id="money">0</span></div>
+      <div class="hud-item"><span class="k star">★</span><span id="ruf">0</span><span class="dim">/5</span></div>
+      <div class="hud-item"><span class="k">LV</span><span id="lvl">1</span><span class="bar"><i id="xpbar"></i></span></div>
+    </div>
+    <div class="hud-row small">
+      <div class="hud-item"><span id="clock">00:00</span><span class="dim" data-t="open247"></span></div>
+      <div class="hud-item ad" id="ad-chip" hidden><span id="ad-text"></span></div>
+    </div>
+    <button class="task" id="clean" type="button"><span data-t="clean"></span> <b id="litter-count">0</b></button>
+  </div>
+
+  <div class="side">
+    <button class="sq" id="btn-staff" type="button" data-label="staff"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="7" y="2" width="6" height="6" rx="1"/><path d="M3 18v-3.5C3 12.6 4.6 11 6.5 11h7c1.9 0 3.5 1.6 3.5 3.5V18z"/></svg></button>
+    <button class="sq" id="btn-stats" type="button" data-label="stats"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="3" y="10" width="3.5" height="8"/><rect x="8.25" y="4" width="3.5" height="14"/><rect x="13.5" y="7" width="3.5" height="11"/></svg></button>
+    <button class="sq" id="btn-alerts" type="button" data-label="alerts"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2l8.5 15.5h-17z"/><rect x="9" y="7.5" width="2" height="5" fill="#22272e"/><rect x="9" y="13.8" width="2" height="2" fill="#22272e"/></svg><span class="dot" id="alert-dot" hidden>1</span></button>
+  </div>
+
+  <div class="dock">
+    <button class="sq" id="speed" type="button" data-label="speed"><span class="lbl" id="speed-badge">1×</span></button>
+    <button class="sq" id="center" type="button" data-label="center"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9 1h2v4H9zM9 15h2v4H9zM1 9h4v2H1zM15 9h4v2h-4z"/><path d="M10 4.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/><rect x="8.5" y="8.5" width="3" height="3"/></svg></button>
+    <button class="build" id="btn-build" type="button"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M11.5 2l6.5 6.5-2.5 2.5-2-2-8 8L3 14.5l8-8-2-2z"/></svg><span data-t="build"></span></button>
+  </div>
+
+  <section class="sheet" id="sheet" hidden>
+    <div class="tabbar">
+      <button class="tab close" id="sheet-close" type="button" data-label="close"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4.2 2.8L10 8.6l5.8-5.8 1.4 1.4L11.4 10l5.8 5.8-1.4 1.4L10 11.4l-5.8 5.8-1.4-1.4L8.6 10 2.8 4.2z"/></svg></button>
+      <button class="tab" type="button" id="tab-btn-eq" aria-pressed="true" data-t="equipment"></button>
+      <button class="tab" type="button" id="tab-btn-team" aria-pressed="false" data-t="staff"></button>
+    </div>
+    <div class="grip" aria-hidden="true"></div>
+    <div class="sheet-title">
+      <h2 data-t="gym"></h2>
+      <div class="kpis">
+        <span class="kpi"><span class="k" data-t="kpiIncome"></span><span id="kpi-income">0</span></span>
+        <span class="kpi"><span class="k" data-t="kpiGuests"></span><span id="kpi-guests">0</span></span>
+        <span class="kpi"><span class="k" data-t="kpiCondition"></span><span id="kpi-cond">0 %</span></span>
+      </div>
+    </div>
+    <div id="tab-eq">
+      <article class="card">
+        <div class="thumb" id="card-icon"></div>
+        <div>
+          <h3 id="card-title"></h3>
+          <p id="card-desc"></p>
+          <span class="cost" id="card-cost"></span>
+        </div>
+        <button class="btn" id="card-upgrade" type="button"></button>
+      </article>
+      <div class="grid" id="eq-grid"></div>
+    </div>
+    <div id="tab-team" class="list" hidden></div>
+  </section>
+
+  <section class="sheet" id="mgmt" hidden>
+    <div class="tabbar">
+      <button class="tab close" id="mgmt-close" type="button" data-label="close"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4.2 2.8L10 8.6l5.8-5.8 1.4 1.4L11.4 10l5.8 5.8-1.4 1.4L10 11.4l-5.8 5.8-1.4-1.4L8.6 10 2.8 4.2z"/></svg></button>
+      <button class="tab" type="button" data-mtab="rooms" aria-pressed="true" data-t="rooms"></button>
+      <button class="tab" type="button" data-mtab="team" aria-pressed="false" data-t="team"></button>
+      <button class="tab" type="button" data-mtab="ads" aria-pressed="false" data-t="ads"></button>
+    </div>
+    <div class="grip" aria-hidden="true"></div>
+    <div class="sheet-title"><h2 id="mgmt-title"></h2></div>
+    <div id="mgmt-body"></div>
+  </section>
+
+  <div class="dialog" id="dialog" hidden>
+    <div class="avatar" aria-hidden="true">J</div>
+    <div>
+      <div class="who"><span data-t="josefTitle"></span> <small data-t="josefSub"></small></div>
+      <p id="dialog-text"></p>
+      <div class="row"><span class="dots" id="dialog-dots"></span><button class="btn" id="dialog-next" type="button"></button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+  <div class="toast" id="review" hidden></div>
+
+  <div class="loader" id="loader">
+    <div class="loader-box"><span id="loader-text"></span><span class="loader-bar"><i id="loader-bar"></i></span></div>
+  </div>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
