@@ -71,7 +71,7 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 
 ## 7. Wartung und Sauberkeit
 
-- Geräte verschleißen durch Nutzung. Unter 30 % wackeln sie (gelbes Ausrufezeichen), bei 0 % kaputt (Rauch, rotes Ausrufezeichen).
+- Geräte verschleißen langsam durch Nutzung (im Prototyp ca. 1 bis 2 % pro Satz, höheres Level hält länger). Unter 30 % wackeln sie (gelbes Ausrufezeichen), bei 0 % kaputt (Rauch, rotes Ausrufezeichen).
 - Reparieren: Gerät antippen. Am Anfang macht Josef das, später ein **Techniker auf Abruf** (wird gerufen und pro Einsatz bezahlt, nicht angestellt).
 - Dreck: liegengelassene Hanteln, Handtücher, Flaschen, Müll, Umkleide und Duschen verschmutzen schnell.
 - Aufräumen: anfangs per Tippen. Jeder Gegenstand hat einen hüpfenden orangen Pfeil, oben zeigt ein Button "Aufräumen: N" die Anzahl und schwenkt die Kamera zum nächsten Teil. Später räumen Reinigungskräfte automatisch.
@@ -124,12 +124,14 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 - Stil: **Low-Poly-3D, hell und freundlich**, Vorbild Hotel Empire Tycoon (Codigames). Kein Pixel Art mehr. Flach schattierte Formen, sanfte Schatten, kräftige Raumfarben (z. B. Mint im Kraftraum, Pfirsich in der Lobby), dicke Wände mit hellen Kappen.
 - Kamera: **isometrisch**, etwas steiler als klassisch (ca. 40° statt 35°), damit sich das Gym im Hochformat nach hinten streckt. Hintere Wände des eigenen Gyms hoch, alle anderen niedrig geschnitten.
 - Umgebung: Das Gym steht in einer kleinen Stadt mit Straßen, fahrenden Autos, Bäumen und Nachbarhäusern.
-- Farben: helle, graue Räume statt Beige, Akzent helles Blau, Level-System Türkis. Drei Paletten im Prototyp (Hellgrau, Anthrazit, Blaugrau), Entscheidung offen.
+- Farben: Palette **Anthrazit** (gewählt): helle, graue Böden, anthrazitfarbene Wände, Akzent Blau, Level-System Türkis. Kein Beige, kein Orange, kein grelles Grün.
 - Schrift: Manrope (clean, gut lesbar), keine verspielte Spieleschrift.
-- Bedienung nach dem Raster von Hotel Empire Tycoon, aber im eigenen hellen Stil: Geld, Uhrzeit, laufende Werbung und Aufräumen links oben; Bewertung und Level rechts oben; runde Buttons rechts (Mitarbeiter, Statistik, Meldungen); unten rechts Palette, Tempo, Zentrieren und der große Hammer-Button.
+- HUD: kompakte, kantige Anthrazit-Leisten (kleiner Radius), Werte als Text statt bunter Icon-Kreise, gefüllte schlichte Symbole. Bedienung nach dem Raster von Hotel Empire Tycoon: Geld, Uhrzeit, laufende Werbung und Aufräumen links oben; Bewertung und Level rechts oben; runde Buttons rechts (Mitarbeiter, Statistik, Meldungen); unten rechts Tempo, Zentrieren und der große Button "Bauen".
+- Alle Menüs fahren von unten hoch, Tabs sitzen wie Karteireiter auf der Kante, Buttons geben beim Drücken nach. **Alles passt ohne Scrollen.**
 - Raum antippen öffnet unten das Raum-Menü: Kennzahlen, Karte des gewählten Geräts (Level, Beschreibung, Kosten, "Verbessern") und ein Raster aller Geräte mit Level-Zahl. Tabs "Geräte" und "Mitarbeiter".
-- Hammer-Button öffnet das Bau- und Verwaltungsmenü: Räume (freikaufen), Mitarbeiter, Werbung (Kampagnen wie Flyer, Social Media, Influencer; immer nur eine gleichzeitig).
+- "Bauen" öffnet das Bau- und Verwaltungsmenü: Räume (freikaufen), Mitarbeiter, Werbung (Kampagnen wie Flyer, Social Media, Influencer; immer nur eine gleichzeitig).
 - Geräte-Level 1 bis 5 wie bei Hotel Tycoon (im Prototyp drin, Entscheidung offen, siehe `VERGLEICH_HOTEL_TYCOON.md`).
+- Nachts sind die Räume beleuchtet, nur die Umgebung wird dunkler.
 - Animationen nach Vorbild: Leute laufen und trainieren sichtbar, Geldscheine fliegen beim Bezahlen hoch, kaputte Geräte rauchen.
 - Animationen: Laufen in jede Richtung, eigene Trainings-Pose pro Gerät (Bankdrücken, Kniebeugen, Curls, Latzug, Laufen, Trinken).
 - Sound: fröhliche Casual-Musik plus Gym-Geräusche (Hanteln, Laufband, Kasse).

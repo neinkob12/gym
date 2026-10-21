@@ -41,5 +41,5 @@ Der Prototyp zeigt also **wie** sich das Spiel anfühlt und bedient. Er zeigt no
 
 1. Hotel Tycoon hat neben Geld eine zweite Ressource (Blitz/Energie), die man für Upgrades braucht. Willst du so etwas für das Gym, zum Beispiel "Strom" oder "Motivation"?
 2. Jedes Gerät hat im Prototyp jetzt Level wie bei Hotel Tycoon. Bei Frage 12 wolltest du Upgrades erst weglassen. Sollen wir beides kombinieren: Level 1 bis 5 pro Gerät, danach gegen ein echtes besseres Modell tauschen?
-3. Welche Palette gefällt dir: Hellgrau, Anthrazit oder Blaugrau?
-4. Darf ich für die Endversion kostenlose CC0-Modellpakete (Kenney, Quaternius) als Grundlage nutzen? Das spart viel Zeit und ist rechtlich sauber.
+3. ~~Welche Palette?~~ Entschieden: Anthrazit.
+4. ~~CC0-Modellpakete?~~ Entschieden: ja, als Grundlage.

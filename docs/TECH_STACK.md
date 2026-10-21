@@ -17,7 +17,7 @@ spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 | Handy-App | **Capacitor** | packt das Web-Spiel als echte iOS- und Android-App |
 | iOS-Build | **Codemagic** (oder GitHub Actions auf macOS) nach **TestFlight** | du brauchst dafür keinen eigenen Mac |
 | Web | **Vercel** | jeder Push gibt eine Vorschau-URL, die du sofort am Handy öffnen kannst |
-| Grafik | **Low-Poly per Code**: Geräte und Figuren aus einfachen 3D-Formen, Farben aus einer Palette. Später optional Modelle aus Blender (glTF) | einheitlicher Stil, Figuren-Baukasten mit beliebig vielen Varianten, keine Zeichenarbeit nötig |
+| Grafik | **CC0-Modellpakete als Basis** (Kenney, Quaternius: Möbel, Stadt, Autos, Figuren mit Animationen; frei auch für kommerzielle Spiele, keine Namensnennung nötig), umgefärbt auf unsere Palette. Gym-Geräte, die es dort nicht gibt, bauen wir selbst (Blender oder per Code), Format glTF | einheitlicher Stil, Figuren-Baukasten mit beliebig vielen Varianten, keine Zeichenarbeit nötig |
 | Sound | fröhliche Casual-Effekte (Kasse, Hanteln, Laufband), Musik später | passt zum 3D-Look besser als Chiptune |
 | Sprachen | eigene `strings.de.ts` / `strings.en.ts` | |
 | Später | RevenueCat (In-App-Käufe), AdMob (Rewarded Ads) über Capacitor-Plugins | erst wenn das Spiel steht |
