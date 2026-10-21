@@ -38,7 +38,7 @@ Sessions: am Anfang 10 bis 20 Minuten aktiv (aufräumen, reparieren, umbauen), s
 
 ## 5. Ansicht, Bedienung, Zeit
 
-- 3/4-Perspektive oder isometrisch (offen), 32 px pro Kachel, eine große Karte. Wischen zum Scrollen, Pinch zum Zoomen.
+- Isometrisch, Rauten 32 px breit, Höhe je nach gewähltem Winkel (16 bis 28 px), eine große Karte. Wischen zum Scrollen, Pinch zum Zoomen.
 - Feste Gebäudekarte, Bereiche werden per Level freigeschaltet und dann gekauft.
 - Bauen: freies Raster, Geräte ziehen, drehen, verschieben. Deko frei (Spiegel, Pflanzen, Poster, Licht, Boden) mit Ambiente-Bonus.
 - **24/7 geöffnet.** Tag/Nacht-Zyklus mit Stoßzeiten: früh morgens mittel, tagsüber ruhig, Feierabend-Rush 16 bis 21 Uhr, nachts wenige Nachteulen.
@@ -122,7 +122,7 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 ## 13. Präsentation
 
 - Stil: **hell** (Entscheidung nach Prototyp 1, dunkle Varianten Modern und Neon verworfen). Helle Böden, cremeweiße Wände, Akzentfarben Koralle und Türkis, dunkle Kontur um Figuren, damit sie auf hellem Grund lesbar bleiben. Vorbilder: Kairosoft (Game Dev Story), Theme Hospital, Two Point Hospital.
-- Kamera: zwei Kandidaten im Prototyp `prototypes/hell/`, **schräg von oben (3/4)** und **isometrisch** (hintere Wände hoch, vordere abgeschnitten wie bei Theme Hospital). Entscheidung offen.
+- Kamera: **isometrisch** (hintere Wände hoch, vordere abgeschnitten wie bei Theme Hospital), steiler als klassisches 2:1, damit sich das Gym im Hochformat nach hinten streckt. Feinwahl des Winkels (3 Stufen im Prototyp `prototypes/hell/`) offen.
 - Animationen: Laufen in 4 Richtungen, eigene Trainings-Pose pro Gerät (Bankdrücken, Kniebeugen, Curls, Latzug, Laufen, Trinken).
 - Sound: Chiptune-Musik plus Gym-Geräusche (Hanteln, Laufband, Kasse).
 - Sprachen: Deutsch und Englisch von Anfang an.

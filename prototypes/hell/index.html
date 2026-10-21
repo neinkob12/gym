@@ -64,6 +64,7 @@ body { font-family: var(--font-text); }
 .btn { background: var(--panel); color: var(--fg); border: 1px solid var(--panel-line); box-shadow: 0 2px 0 rgba(38, 48, 58, 0.08); }
 .btn:focus-visible, .seg button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .btns { display: inline-flex; gap: 6px; }
+.btn { white-space: nowrap; }
 
 .dialog {
   position: absolute;
@@ -110,10 +111,11 @@ body { font-family: var(--font-text); }
 
   <div class="hud-bottom">
     <div class="seg" role="group" aria-label="Kamera">
-      <button id="mode-td" type="button" aria-pressed="true">Schräg</button>
-      <button id="mode-iso" type="button" aria-pressed="false">Isometrisch</button>
+      <button id="mode-iso" type="button" aria-pressed="true">Isometrisch</button>
+      <button id="mode-td" type="button" aria-pressed="false">Schräg</button>
     </div>
     <div class="btns">
+      <button class="btn" id="tilt" type="button">Winkel</button>
       <button class="btn" id="speed" type="button">Tempo 1×</button>
       <button class="btn" id="center" type="button">Zentrieren</button>
     </div>
@@ -251,21 +253,37 @@ function pixText(k, str, x, y, s, c) {
 }
 
 // ---------- Ansichten ----------
-let mode = "td";
-try { const s = localStorage.getItem("gt-view"); if (s === "iso" || s === "td") mode = s; } catch (e) {}
+let mode = "iso";
+try { const s = localStorage.getItem("gt-view2"); if (s === "iso" || s === "td") mode = s; } catch (e) {}
+// Blickwinkel: hy = halbe Rautenhöhe, zf = Stauchung der Höhen. Höhere Rauten = steiler von oben = Gym zieht sich nach hinten.
+const TILTS = [
+  { name: "Klassisch", hy: 8, zf: 1 },
+  { name: "Gestreckt", hy: 11, zf: 0.86 },
+  { name: "Stark gestreckt", hy: 14, zf: 0.74 },
+];
+let tilt = 1;
+try { const v = localStorage.getItem("gt-tilt"); const s = Number(v); if (v !== null && s >= 0 && s < TILTS.length) tilt = s; } catch (e) {}
 const TD = { w: COLS * TILE, h: ROWS * TILE };
-const ISO = { ox: ROWS * 16 + 24, oy: 70, w: (COLS + ROWS) * 16 + 48, h: (COLS + ROWS) * 8 + 70 + 30 };
-const isoP = (fx, fy) => [ISO.ox + (fx - fy) * 16, ISO.oy + (fx + fy) * 8];
+const ISO = { ox: ROWS * 16 + 24, oy: 70, w: (COLS + ROWS) * 16 + 48, h: 0, hy: 8, zf: 1 };
+function setIsoGeometry() {
+  ISO.hy = TILTS[tilt].hy; ISO.zf = TILTS[tilt].zf;
+  ISO.oy = Math.round(62 * ISO.zf) + 8;
+  ISO.h = (COLS + ROWS) * ISO.hy + ISO.oy + 30;
+}
+setIsoGeometry();
+const zz = (v) => Math.round(v * ISO.zf);
+const isoP = (fx, fy) => [ISO.ox + (fx - fy) * 16, ISO.oy + (fx + fy) * ISO.hy];
 const proj = (x, y) => mode === "td" ? [x, y] : isoP(x / 32, (y - 8) / 32);
 function makeCanvas(w, h) { const c = document.createElement("canvas"); c.width = w; c.height = h; return c; }
 const worldTD = makeCanvas(TD.w, TD.h), statTD = makeCanvas(TD.w, TD.h);
 const worldISO = makeCanvas(ISO.w, ISO.h), statISO = makeCanvas(ISO.w, ISO.h);
+function resizeIso() { for (const c of [worldISO, statISO]) { c.width = ISO.w; c.height = ISO.h; } }
 const cur = () => mode === "td" ? { world: worldTD, stat: statTD, w: TD.w, h: TD.h } : { world: worldISO, stat: statISO, w: ISO.w, h: ISO.h };
 
 // Isometrische Quader: Deckel, linke Seite (zeigt nach +y), rechte Seite (zeigt nach +x)
 function box(k, fx, fy, w, d, h, z, color, top) {
   const N = isoP(fx, fy), E = isoP(fx + w, fy), S = isoP(fx + w, fy + d), Wp = isoP(fx, fy + d);
-  const up = (p, dz) => [p[0], p[1] - dz];
+  const up = (p, dz) => [p[0], p[1] - dz * ISO.zf];
   if (h > 0) {
     fillPoly(k, [up(Wp, z), up(S, z), up(S, z + h), up(Wp, z + h)], shade(color, 0.86));
     fillPoly(k, [up(S, z), up(E, z), up(E, z + h), up(S, z + h)], shade(color, 0.72));
@@ -281,11 +299,11 @@ function diamond(k, tx, ty, c, lineC) {
 }
 // Rechteck auf der Wandfläche y = Y (schaut in den Raum)
 function wallRectY(k, Y, a, b, z0, z1, c) {
-  const A = isoP(a, Y), B = isoP(b, Y);
+  const A = isoP(a, Y), B = isoP(b, Y); z0 *= ISO.zf; z1 *= ISO.zf;
   fillPoly(k, [[A[0], A[1] - z0], [B[0], B[1] - z0], [B[0], B[1] - z1], [A[0], A[1] - z1]], c);
 }
 function wallRectX(k, X, a, b, z0, z1, c) {
-  const A = isoP(X, a), B = isoP(X, b);
+  const A = isoP(X, a), B = isoP(X, b); z0 *= ISO.zf; z1 *= ISO.zf;
   fillPoly(k, [[A[0], A[1] - z0], [B[0], B[1] - z0], [B[0], B[1] - z1], [A[0], A[1] - z1]], c);
 }
 
@@ -391,7 +409,7 @@ function buildStaticISO() {
     const [a, l] = floorColors(c, x, y);
     diamond(k, x, y, a, l);
     const [cx, cy] = isoP(x + 0.5, y + 0.5);
-    if (c === "r") for (let i = 0; i < 3; i++) R(T.grass2, cx - 8 + hash(x, y, i) * 16, cy - 3 + hash(x, y, i + 4) * 6, 2, 2, k);
+    if (c === "r") for (let i = 0; i < 3; i++) R(T.grass2, cx - 8 + hash(x, y, i) * 16, cy - 3 + hash(x, y, i + 4) * ISO.hy * 0.7, 2, 2, k);
     if ((c === "." || c === ",") && hash(x, y, 40) < 0.22) { R(T.stain, cx - 5 + hash(x, y, 41) * 6, cy - 2, 8, 3, k); R(T.stain, cx - 3 + hash(x, y, 41) * 6, cy - 3, 4, 5, k); }
     if ((c === "." || c === ",") && hash(x, y, 43) < 0.16) { let px = cx - 6 + hash(x, y, 44) * 8; for (let i = 0; i < 6; i++) { R(T.crack, px, cy - 3 + i, 1, 1, k); px += hash(x, y, 50 + i) < 0.5 ? -1 : 1; } }
   }
@@ -435,13 +453,13 @@ function buildStaticISO() {
     }
     if (!w.tall) {
       const [cx, cy] = isoP(w.x + 0.5, w.y + 0.5);
-      R(T.stripe, cx - 1, cy - 8, 2, 1, k);
+      R(T.stripe, cx - 1, cy - zz(8), 2, 1, k);
     }
   }
   // Spiegel an der Hallenwand, Regal in der Protein Bar, Spiegel im Kursraum
   wallRectY(k, 2, 3.1, 5.9, 15, 31, T.metal);
   wallRectY(k, 2, 3.18, 5.82, 16, 30, T.glass);
-  for (let i = 0; i < 3; i++) { const a = isoP(3.5 + i * 0.8, 2), b = isoP(3.75 + i * 0.8, 2); line(k, a[0], a[1] - 17, b[0], b[1] - 29, T.glassHi); }
+  for (let i = 0; i < 3; i++) { const a = isoP(3.5 + i * 0.8, 2), b = isoP(3.75 + i * 0.8, 2); line(k, a[0], a[1] - zz(17), b[0], b[1] - zz(29), T.glassHi); }
   for (let s = 0; s < 2; s++) {
     wallRectY(k, 2, 10.1, 13.9, 16 + s * 8, 17 + s * 8, T.metal);
     for (let i = 0; i < 11; i++) wallRectY(k, 2, 10.2 + i * 0.33, 10.4 + i * 0.33, 17 + s * 8, 22 + s * 8, ["#ff7a59", "#2bb5a4", "#e9a91c", "#7c9cff", "#ff8cc6"][(i + s * 2) % 5]);
@@ -454,8 +472,8 @@ function buildStaticISO() {
   // Absperrungen
   for (const [x, y] of OPENINGS) {
     const horiz = isWall(at(x, y - 1));
-    if (horiz) { box(k, x + 0.45, y + 0.05, 0.1, 0.1, 10, 0, T.metal); box(k, x + 0.45, y + 0.85, 0.1, 0.1, 10, 0, T.metal); const a = isoP(x + 0.5, y + 0.1), b = isoP(x + 0.5, y + 0.9); line(k, a[0], a[1] - 8, b[0], b[1] - 8, "#e5484d"); }
-    else { box(k, x + 0.05, y + 0.45, 0.1, 0.1, 10, 0, T.metal); box(k, x + 0.85, y + 0.45, 0.1, 0.1, 10, 0, T.metal); const a = isoP(x + 0.1, y + 0.5), b = isoP(x + 0.9, y + 0.5); line(k, a[0], a[1] - 8, b[0], b[1] - 8, "#e5484d"); }
+    if (horiz) { box(k, x + 0.45, y + 0.05, 0.1, 0.1, 10, 0, T.metal); box(k, x + 0.45, y + 0.85, 0.1, 0.1, 10, 0, T.metal); const a = isoP(x + 0.5, y + 0.1), b = isoP(x + 0.5, y + 0.9); line(k, a[0], a[1] - zz(8), b[0], b[1] - zz(8), "#e5484d"); }
+    else { box(k, x + 0.05, y + 0.45, 0.1, 0.1, 10, 0, T.metal); box(k, x + 0.85, y + 0.45, 0.1, 0.1, 10, 0, T.metal); const a = isoP(x + 0.1, y + 0.5), b = isoP(x + 0.9, y + 0.5); line(k, a[0], a[1] - zz(8), b[0], b[1] - zz(8), "#e5484d"); }
   }
 }
 
@@ -638,11 +656,11 @@ function isoLat(e) {
   box(k, 1.18, 8.2, 0.18, 1.0, 3, 46, T.metal);
   const barZ = e.user ? 40 - Math.round(e.phase * 12) : 40;
   const top = isoP(1.27, 9.15);
-  line(k, top[0], top[1] - 46, top[0], top[1] - barZ, T.chromeDk);
+  line(k, top[0], top[1] - zz(46), top[0], top[1] - zz(barZ), T.chromeDk);
   box(k, 0.92, 9.12, 0.72, 0.06, 2, barZ, T.chrome);
   box(k, 1.32, 9.45, 0.08, 0.08, 10, 0, T.metal);
   box(k, 1.16, 9.3, 0.4, 0.42, 3, 10, T.pad, T.padHi);
-  e.barY = top[1] - barZ;
+  e.barY = top[1] - zz(barZ);
 }
 function isoRack(e) {
   const k = g;
@@ -663,7 +681,7 @@ function isoTM(e, t) {
   box(k, x + 0.18, 7.22, 0.64, 1.66, 4, 0, T.metal, T.belt);
   const on = e.user && !e.broken;
   const off = on ? (t * 1.6) % 0.25 : 0;
-  for (let i = 0; i < 6; i++) { const fy = 7.3 + ((i * 0.25 + off) % 1.5); const a = isoP(x + 0.24, fy), b = isoP(x + 0.76, fy); line(k, a[0], a[1] - 4, b[0], b[1] - 4, T.plateHi); }
+  for (let i = 0; i < 6; i++) { const fy = 7.3 + ((i * 0.25 + off) % 1.5); const a = isoP(x + 0.24, fy), b = isoP(x + 0.76, fy); line(k, a[0], a[1] - zz(4), b[0], b[1] - zz(4), T.plateHi); }
   box(k, x + 0.2, 7.26, 0.06, 0.06, 22, 4, T.metal); box(k, x + 0.74, 7.26, 0.06, 0.06, 22, 4, T.metal);
   box(k, x + 0.14, 7.18, 0.72, 0.22, 5, 25, T.metal, on ? T.screen : T.plate);
 }
@@ -672,7 +690,7 @@ function isoWater() {
   box(k, 8.3, 2.3, 0.4, 0.4, 22, 0, "#ffffff");
   box(k, 8.36, 2.36, 0.28, 0.28, 12, 22, "#8cc8ff", "#cfe8ff");
   const [cx, cy] = isoP(8.7, 2.7);
-  R("#e5484d", cx - 6, cy - 14, 2, 2); R("#3ea0ff", cx - 2, cy - 14, 2, 2);
+  R("#e5484d", cx - 6, cy - zz(14), 2, 2); R("#3ea0ff", cx - 2, cy - zz(14), 2, 2);
 }
 function isoDesk() {
   const k = g;
@@ -683,7 +701,7 @@ function isoDesk() {
 function isoPlant(tx, ty) {
   box(g, tx + 0.3, ty + 0.3, 0.4, 0.4, 9, 0, T.pot);
   const [cx, cy] = isoP(tx + 0.5, ty + 0.5);
-  leaves(cx, cy - 10);
+  leaves(cx, cy - zz(10));
 }
 
 // ---------- Figuren-Baukasten ----------
@@ -1081,7 +1099,7 @@ function eqAnchor(e) {
     return [bx, by];
   }
   const [cx, cy] = isoP((e.x0 + e.x1 + 1) / 2, (e.y0 + e.y1 + 1) / 2);
-  return [cx, cy - (e.kind === "lat" || e.kind === "rack" ? 54 : e.kind === "tm" ? 34 : 26)];
+  return [cx, cy - zz(e.kind === "lat" || e.kind === "rack" ? 54 : e.kind === "tm" ? 34 : 26)];
 }
 function drawEq(e, t) {
   g.save();
@@ -1152,7 +1170,7 @@ const minScale = () => Math.min(cw / cur().w, ch / cur().h);
 function centerCam() {
   const c = cur();
   if (mode === "td") { cam.s = Math.max(minScale(), Math.min(3.2, cw / (9.5 * 32))); var [fx, fy] = [4.8 * 32, 10.5 * 32]; }
-  else { cam.s = Math.max(minScale(), Math.min(3.2, cw / 300)); var [fx, fy] = isoP(5, 8.5); }
+  else { cam.s = Math.max(minScale(), Math.min(3.2, cw / 290)); var [fx, fy] = isoP(5, 9); }
   cam.x = cw / 2 - fx * cam.s; cam.y = ch / 2 - fy * cam.s;
   clampCam();
 }
@@ -1295,7 +1313,7 @@ view.addEventListener("wheel", (e) => {
 function tap(wx, wy) {
   let fx, fy;
   if (mode === "td") { fx = wx / 32; fy = wy / 32; }
-  else { const u = (wx - ISO.ox) / 16, v = (wy - ISO.oy) / 8; fx = (u + v) / 2; fy = (v - u) / 2; }
+  else { const u = (wx - ISO.ox) / 16, v = (wy - ISO.oy) / ISO.hy; fx = (u + v) / 2; fy = (v - u) / 2; }
   const tx = Math.floor(fx), ty = Math.floor(fy);
   const li = litter.findIndex((l) => {
     const [sx, sy] = mode === "td" ? [l.tx * 32 + l.ox + 6, l.ty * 32 + l.oy + 3] : isoP(l.tx + l.ox / 32, l.ty + (l.oy - 8) / 32);
@@ -1333,9 +1351,17 @@ function applyMode(m) {
   mode = m;
   $("mode-td").setAttribute("aria-pressed", String(m === "td"));
   $("mode-iso").setAttribute("aria-pressed", String(m === "iso"));
-  try { localStorage.setItem("gt-view", m); } catch (e) {}
+  try { localStorage.setItem("gt-view2", m); } catch (e) {}
+  $("tilt").hidden = m !== "iso";
   centerCam();
 }
+function applyTilt(i) {
+  tilt = i; setIsoGeometry(); resizeIso(); buildStaticISO();
+  $("tilt").textContent = "Winkel " + (i + 1) + "/" + TILTS.length;
+  try { localStorage.setItem("gt-tilt", String(i)); } catch (e) {}
+  if (mode === "iso") centerCam();
+}
+$("tilt").addEventListener("click", () => { applyTilt((tilt + 1) % TILTS.length); toast("Blickwinkel: " + TILTS[tilt].name); });
 $("mode-td").addEventListener("click", () => applyMode("td"));
 $("mode-iso").addEventListener("click", () => applyMode("iso"));
 $("speed").addEventListener("click", () => { state.speed = state.speed === 1 ? 3 : 1; $("speed").textContent = "Tempo " + state.speed + "×"; });
@@ -1381,7 +1407,7 @@ for (let i = 0; i < 5; i++) {
   p.x = startTiles[i][0] * 32 + 16; p.y = startTiles[i][1] * 32 + 24; p.path = []; p.state = "checkin"; p.timer = 0.01 + i * 0.3;
   if (p.type === "wellness") p.type = "anfaenger";
 }
-buildStaticTD(); buildStaticISO(); drawFace();
+buildStaticTD(); applyTilt(tilt); drawFace();
 resize(); applyMode(mode);
 window.addEventListener("resize", resize);
 

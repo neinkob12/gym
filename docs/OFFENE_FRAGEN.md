@@ -2,13 +2,9 @@
 
 Was ich von dir brauche, bevor E1 startet.
 
-## 1. Kamera
+## 1. Blickwinkel
 
-Heller Look ist gesetzt. Im Prototyp `prototypes/hell/` gibt es **Schräg (3/4)** und **Isometrisch**. Welche Ansicht gewinnt?
-
-Abwägung:
-- Schräg: nutzt das Hochformat besser (Karte ist hoch und schmal), Bauen im Raster ist am Handy einfacher, Pixel Art schneller zu zeichnen.
-- Isometrisch: sieht hochwertiger und "mehr nach Tycoon" aus, Geräte wirken räumlicher. Dafür ist die Karte breit (passt schlechter ins Hochformat, mehr Zoomen und Wischen), jedes Gerät braucht Grafiken für zwei Blickrichtungen, und Antippen auf kleine Rauten ist fummeliger.
+Isometrisch ist gesetzt. Im Prototyp gibt es drei Winkel (Button "Winkel"): 1 klassisch, 2 gestreckt, 3 stark gestreckt. Welcher passt?
 
 ## 2. Die Legende (Markus Rühl)
 
