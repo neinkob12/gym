@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+# Capacitor: generierte Web-Kopie und Abhängigkeiten im iOS-Projekt
+ios/App/App/public/
+ios/App/App/capacitor.config.json
+ios/App/App/config.xml
+ios/App/Pods/
+ios/App/output/
+ios/DerivedData/
+xcuserdata/
