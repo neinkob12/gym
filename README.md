@@ -14,9 +14,10 @@ Status: **Planung** (Etappe E0).
 | `docs/ROADMAP.md` | Etappen bis TestFlight und Store |
 | `docs/RECHERCHE.md` | Vorlagen, Balancing-Wissen, Skills, Quellen |
 | `docs/OFFENE_FRAGEN.md` | Was noch entschieden werden muss |
-| `prototypes/stil/index.html` | Klickbarer Stil-Prototyp (Modern vs. Neon 80er) |
+| `prototypes/hell/index.html` | Aktueller Prototyp: heller Look, Kamera schräg vs. isometrisch |
+| `prototypes/stil/index.html` | Erster Prototyp (Modern vs. Neon 80er, verworfen) |
 
 ## Prototyp lokal öffnen
 
-`prototypes/stil/index.html` im Browser öffnen. Ziehen zum Verschieben, zwei Finger oder Mausrad zum Zoomen,
+`prototypes/hell/index.html` im Browser öffnen. Ziehen zum Verschieben, zwei Finger oder Mausrad zum Zoomen,
 auf Müll und kaputte Geräte tippen.

@@ -2,9 +2,13 @@
 
 Was ich von dir brauche, bevor E1 startet.
 
-## 1. Stil
+## 1. Kamera
 
-Im Prototyp gibt es **Modern** und **Neon 80er**. Welcher gewinnt? Oder eine Mischung (z. B. Modern als Grundlook, Neon-Schilder als Deko-Upgrade)?
+Heller Look ist gesetzt. Im Prototyp `prototypes/hell/` gibt es **Schräg (3/4)** und **Isometrisch**. Welche Ansicht gewinnt?
+
+Abwägung:
+- Schräg: nutzt das Hochformat besser (Karte ist hoch und schmal), Bauen im Raster ist am Handy einfacher, Pixel Art schneller zu zeichnen.
+- Isometrisch: sieht hochwertiger und "mehr nach Tycoon" aus, Geräte wirken räumlicher. Dafür ist die Karte breit (passt schlechter ins Hochformat, mehr Zoomen und Wischen), jedes Gerät braucht Grafiken für zwei Blickrichtungen, und Antippen auf kleine Rauten ist fummeliger.
 
 ## 2. Die Legende (Markus Rühl)
 

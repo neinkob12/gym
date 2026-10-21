@@ -33,3 +33,21 @@ Community-Skills, die wir uns vor E1 anschauen (nicht ungeprüft installieren, e
 - [chongdashu/phaserjs-oakwoods](https://cdn.jsdelivr.net/gh/chongdashu/phaserjs-oakwoods@main/README.md): Phaser-Skill plus Playwright-Test-Skill. Interessant für automatische Handy-Screenshots.
 
 Empfehlung: Vor E1 den Phaser-4-Skill und den Playwright-Skill lesen und, wenn sie taugen, ins Repo unter `.claude/skills/` übernehmen.
+
+## Heller Stil: wie andere es machen
+
+- Kairosoft-Spiele (z. B. Game Dev Story, Venture Towns) nutzen helle, bunte Pixel Art, teils isometrisch, teils von oben, mit sehr einheitlichem Stil über alle Spiele ([TouchArcade zu Cafeteria Nipponica](https://toucharcade.com/?p=107554), [Everyeye zu Venture Towns](https://www.everyeye.it/articoli/recensione-venture-towns-15720.html), [Apple Story zu Game Dev Story](https://apps.apple.com/pk/story/id1484316385)).
+- Theme Hospital: 2D-Sprites in isometrischer Ansicht, klare Sprites und Animationen, Räume als feste Grundrisse im Raster ([Geeky Hobbies Review](https://www.geekyhobbies.com/theme-hospital-retro-video-game-review/), [Best DOS Games](https://bestdosgames.com/games/theme-hospital)).
+- Gym-Konkurrenz zum Anschauen: [Idle Planet: Gym Tycoon](https://www.crazygames.com/game/idle-planet-gym-tycoon), [Fitness Club Tycoon](https://apps.apple.com/app/id1611726111). Ein isometrisches Pixel-Art-Gym im hellen Stil haben wir nicht gefunden, das ist eine Lücke.
+- Übernommen: helle Böden, weiße Wände, zwei Akzentfarben, dunkle Kontur um Figuren, hintere Wände hoch und vordere abgeschnitten.
+
+## Decompilte oder nachgebaute Tycoon-Spiele
+
+- [OpenRCT2](https://en.wikipedia.org/wiki/OpenRCT2): Nachbau von RollerCoaster Tycoon 2, Lizenz GPLv3, braucht die Original-Spieldateien.
+- [CorsixTH](https://github.com/damsweb/CorsixTH): Nachbau der Theme-Hospital-Engine, lädt die Original-Grafiken und -Sounds, braucht eine gekaufte Kopie. Lizenzangaben in den Quellen widersprüchlich, im Repo prüfen.
+
+Was das für uns heißt:
+- **Grafiken und Sounds** aus diesen Spielen dürfen wir nicht nutzen. Sie gehören weiter den Rechteinhabern, die Projekte liefern sie bewusst nicht mit.
+- **Code** von OpenRCT2 (GPLv3) dürfen wir nicht in unser Spiel kopieren, sonst müsste unser ganzes Spiel GPL werden, und GPL verträgt sich schlecht mit dem App Store.
+- **Lesen und lernen** ist erlaubt und sinnvoll: wie Besucher-KI, Personal, Pfadfindung, Raum-Logik und Warteschlangen gelöst sind. Wir schreiben es dann selbst neu.
+- Echte Decompilate kommerzieller Spiele nutzen wir gar nicht, auch nicht als Vorlage.
