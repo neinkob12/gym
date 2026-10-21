@@ -8,7 +8,7 @@ spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 | Bereich | Wahl | Warum |
 | --- | --- | --- |
 | Sprache | TypeScript (strict) | wie in deinen anderen Projekten |
-| Engine | **Phaser 4** (aktuell 4.1) | echte 2D-Engine: Sprites, Animationen, Kamera mit Zoom, Tiefensortierung, Pixel-Art-Modus. Läuft im Browser, also direkt auf Vercel. |
+| Engine | **Three.js** | 3D im Browser mit orthografischer Iso-Kamera, Licht und Schatten. Passt zum Low-Poly-Look (Hotel Empire Tycoon). Läuft auf Vercel und per Capacitor auf dem Handy. Prototyp nutzt r128, im echten Projekt die aktuelle Version per npm. |
 | Build | **Vite** | schnell, gleiches Setup wie Matcha Maker |
 | Menüs | HTML/CSS-Overlay mit **Preact** | Einstellen-Menü, Shop, Statistik sind Listen und Karten. Das ist mit HTML viel einfacher und schärfer als in der Engine. |
 | Spiellogik | reines TypeScript in `src/sim/`, ohne Phaser | testbar, und Offline-Einnahmen lassen sich ohne Grafik durchrechnen |
@@ -17,7 +17,7 @@ spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 | Handy-App | **Capacitor** | packt das Web-Spiel als echte iOS- und Android-App |
 | iOS-Build | **Codemagic** (oder GitHub Actions auf macOS) nach **TestFlight** | du brauchst dafür keinen eigenen Mac |
 | Web | **Vercel** | jeder Push gibt eine Vorschau-URL, die du sofort am Handy öffnen kannst |
-| Pixel Art | **per Code erzeugt**: Node-Skripte zeichnen Sprites und schreiben PNG-Spritesheets + JSON-Atlas | einheitlicher Stil, beliebig viele Varianten (Figuren-Baukasten) |
+| Grafik | **Low-Poly per Code**: Geräte und Figuren aus einfachen 3D-Formen, Farben aus einer Palette. Später optional Modelle aus Blender (glTF) | einheitlicher Stil, Figuren-Baukasten mit beliebig vielen Varianten, keine Zeichenarbeit nötig |
 | Sound | generierte Chiptune-Effekte (jsfxr-Stil), Musik später | |
 | Sprachen | eigene `strings.de.ts` / `strings.en.ts` | |
 | Später | RevenueCat (In-App-Käufe), AdMob (Rewarded Ads) über Capacitor-Plugins | erst wenn das Spiel steht |
@@ -26,7 +26,8 @@ spielbar per TestFlight auf dem iPhone, Web-Version über Vercel.
 
 - **Vercel** ist ein Web-Hoster. Ein Web-Spiel mit Capacitor erfüllt Vercel und TestFlight mit derselben Codebasis.
 - Godot und Unity würden auch gehen, aber neue Sprache, schwereres Tooling, und die Web-Builds sind groß und langsam auf dem Handy.
-- Phaser hat einen offiziellen Weg zu iOS und Android über Capacitor (Tutorial in `RECHERCHE.md`).
+- Capacitor packt jedes Web-Spiel, also auch Three.js, als iOS- und Android-App (Phaser-Tutorial in `RECHERCHE.md` gilt sinngemäß).
+- Phaser war die erste Wahl für Pixel Art. Mit dem Wechsel zum 3D-Look ist Three.js besser, weil Licht, Schatten und Kamera direkt mitkommen.
 
 ## Was du einrichten musst
 
@@ -43,13 +44,10 @@ src/
   sim/          # Spielregeln ohne Grafik: Kunden, Geräte, Wirtschaft, Zeit
     config.ts   # ALLE Balancing-Werte
     __tests__/
-  game/         # Phaser-Szenen, Rendering, Kamera, Eingabe
+  game/         # Three.js: Szene, Kamera, Licht, Eingabe
   ui/           # Preact-Menüs (Personal, Shop, Statistik, Einstellungen)
   content/      # Texte DE/EN, Kunden- und Mitarbeiterdaten
-  art/          # Pixel-Zeichenfunktionen (Quelle der Sprites)
-scripts/
-  build-art.ts  # rendert src/art nach public/sprites/*.png + Atlas
-public/sprites/
+  models/       # Low-Poly-Bausteine für Geräte, Figuren, Stadt
 docs/
 prototypes/
 ```
@@ -57,7 +55,7 @@ prototypes/
 ## Regeln, die von Anfang an gelten
 
 - Alle Balancing-Werte nur in `src/sim/config.ts`.
-- Spiellogik importiert nie Phaser oder Preact.
+- Spiellogik importiert nie Three.js oder Preact.
 - Spielzeit wird aus Zeitstempeln berechnet, damit Offline-Fortschritt stimmt.
 - Sichtbare Texte nur in den String-Dateien.
 - Erst am Handy testen, dann als fertig melden.

@@ -38,7 +38,7 @@ Sessions: am Anfang 10 bis 20 Minuten aktiv (aufräumen, reparieren, umbauen), s
 
 ## 5. Ansicht, Bedienung, Zeit
 
-- Isometrisch, Rauten 32 px breit, Höhe je nach gewähltem Winkel (16 bis 28 px), eine große Karte. Wischen zum Scrollen, Pinch zum Zoomen.
+- Isometrische 3D-Ansicht, eine große Karte. Das Start-Gym liegt in der Mitte, Ausbauflächen in Gym-Größe links (West) und hinten (Nord), dazu Umkleide, Protein Bar, Kursraum, Personalraum und Wellness als Bauflächen mit Schild. Wischen zum Scrollen, Pinch zum Zoomen.
 - Feste Gebäudekarte, Bereiche werden per Level freigeschaltet und dann gekauft.
 - Bauen: freies Raster, Geräte ziehen, drehen, verschieben. Deko frei (Spiegel, Pflanzen, Poster, Licht, Boden) mit Ambiente-Bonus.
 - **24/7 geöffnet.** Tag/Nacht-Zyklus mit Stoßzeiten: früh morgens mittel, tagsüber ruhig, Feierabend-Rush 16 bis 21 Uhr, nachts wenige Nachteulen.
@@ -58,7 +58,7 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 
 - Einnahmen: Tagespass und Mitgliedschaft. Zufriedene Tagesgäste werden Mitglieder, unzufriedene kündigen.
 - Preise einstellbar: Tagespass, Mitgliedsbeitrag und Abo-Stufen (z. B. Basic, Premium mit Wellness, VIP).
-- Feedback: Sprechblasen-Icons (warten, Durst, Dreck, kaputt, glücklich, sauer) plus Sterne-Bewertungen mit kurzen Texten.
+- Feedback: Sprechblasen-Icons (warten, glücklich, sauer, Wellness fehlt) plus seltene Sterne-Bewertungen mit kurzen Texten. Wenig Meldungen: nur was wirklich Handeln braucht, poppt auf.
 - Belegtes Gerät: anstehen, Geduld sinkt, irgendwann sauer gehen.
 - Kunde antippen zeigt Typ und Wünsche.
 
@@ -74,7 +74,7 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 - Geräte verschleißen durch Nutzung. Unter 30 % wackeln sie (gelbes Ausrufezeichen), bei 0 % kaputt (Rauch, rotes Ausrufezeichen).
 - Reparieren: Gerät antippen. Am Anfang macht Josef das, später ein **Techniker auf Abruf** (wird gerufen und pro Einsatz bezahlt, nicht angestellt).
 - Dreck: liegengelassene Hanteln, Handtücher, Flaschen, Müll, Umkleide und Duschen verschmutzen schnell.
-- Aufräumen: anfangs per Tippen, später automatisch durch Reinigungskräfte.
+- Aufräumen: anfangs per Tippen. Jeder Gegenstand hat einen hüpfenden orangen Pfeil, oben zeigt ein Button "Aufräumen: N" die Anzahl und schwenkt die Kamera zum nächsten Teil. Später räumen Reinigungskräfte automatisch.
 - Folgen: schlechte Bewertungen, weniger Neukunden, Kündigungen. Kein Game Over.
 
 ## 8. Mitarbeiter
@@ -121,9 +121,11 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 
 ## 13. Präsentation
 
-- Stil: **hell** (Entscheidung nach Prototyp 1, dunkle Varianten Modern und Neon verworfen). Helle Böden, cremeweiße Wände, Akzentfarben Koralle und Türkis, dunkle Kontur um Figuren, damit sie auf hellem Grund lesbar bleiben. Vorbilder: Kairosoft (Game Dev Story), Theme Hospital, Two Point Hospital.
-- Kamera: **isometrisch** (hintere Wände hoch, vordere abgeschnitten wie bei Theme Hospital), steiler als klassisches 2:1, damit sich das Gym im Hochformat nach hinten streckt. Feinwahl des Winkels (3 Stufen im Prototyp `prototypes/hell/`) offen.
-- Animationen: Laufen in 4 Richtungen, eigene Trainings-Pose pro Gerät (Bankdrücken, Kniebeugen, Curls, Latzug, Laufen, Trinken).
+- Stil: **Low-Poly-3D, hell und freundlich**, Vorbild Hotel Empire Tycoon (Codigames). Kein Pixel Art mehr. Flach schattierte Formen, sanfte Schatten, kräftige Raumfarben (z. B. Mint im Kraftraum, Pfirsich in der Lobby), dicke Wände mit hellen Kappen.
+- Kamera: **isometrisch**, etwas steiler als klassisch (ca. 40° statt 35°), damit sich das Gym im Hochformat nach hinten streckt. Hintere Wände des eigenen Gyms hoch, alle anderen niedrig geschnitten.
+- Umgebung: Das Gym steht in einer kleinen Stadt mit Straßen, fahrenden Autos, Bäumen und Nachbarhäusern.
+- Animationen nach Vorbild: Leute laufen und trainieren sichtbar, Geldscheine fliegen beim Bezahlen hoch, kaputte Geräte rauchen.
+- Animationen: Laufen in jede Richtung, eigene Trainings-Pose pro Gerät (Bankdrücken, Kniebeugen, Curls, Latzug, Laufen, Trinken).
 - Sound: Chiptune-Musik plus Gym-Geräusche (Hanteln, Laufband, Kasse).
 - Sprachen: Deutsch und Englisch von Anfang an.
 - Speichern: lokal auf dem Gerät, kein Login. Cloud-Save später.

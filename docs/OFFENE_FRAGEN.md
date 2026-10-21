@@ -2,9 +2,9 @@
 
 Was ich von dir brauche, bevor E1 startet.
 
-## 1. Blickwinkel
+## 1. Look
 
-Isometrisch ist gesetzt. Im Prototyp gibt es drei Winkel (Button "Winkel"): 1 klassisch, 2 gestreckt, 3 stark gestreckt. Welcher passt?
+Neuer Prototyp `prototypes/3d/` im Low-Poly-3D-Stil nach Hotel Empire Tycoon. Passt die Richtung? Was soll anders sein (Farben, Kamerawinkel, Figurengröße, Stadt drumherum)?
 
 ## 2. Die Legende (Markus Rühl)
 

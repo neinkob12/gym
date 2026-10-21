@@ -51,3 +51,12 @@ Was das für uns heißt:
 - **Code** von OpenRCT2 (GPLv3) dürfen wir nicht in unser Spiel kopieren, sonst müsste unser ganzes Spiel GPL werden, und GPL verträgt sich schlecht mit dem App Store.
 - **Lesen und lernen** ist erlaubt und sinnvoll: wie Besucher-KI, Personal, Pfadfindung, Raum-Logik und Warteschlangen gelöst sind. Wir schreiben es dann selbst neu.
 - Echte Decompilate kommerzieller Spiele nutzen wir gar nicht, auch nicht als Vorlage.
+
+## Hauptinspiration: Hotel Empire Tycoon
+
+Video vom 21.10.2026 (Werbeclip von Codigames). Übernommen wird die Art der Darstellung, nicht Farben oder Inhalte:
+- Low-Poly-3D in isometrischer Ansicht, weich schattiert, keine Pixel.
+- Gebäude in einer kleinen Stadt: Straßen, Autos, Bäume, Nachbarhäuser rahmen das Bild.
+- Räume mit eigener Wand- und Bodenfarbe, dicke Wände mit hellen Kappen, vorne offen geschnitten.
+- Lebendige Szene: Gäste und Personal laufen und arbeiten, Geldscheine fliegen aus den Räumen hoch.
+- Ausbau als Fortschritt: Neue Räume füllen nach und nach das Grundstück.
