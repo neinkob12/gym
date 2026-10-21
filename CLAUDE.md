@@ -16,6 +16,7 @@ Low-Poly-3D, isometrisch, Hochformat, Vorbild für Darstellung und Bedienung: Ho
 - Alle Balancing-Werte nur in `src/sim/config.ts`.
 - Alle sichtbaren Texte nur in `src/content/strings.ts`.
 - 3D-Modelle: Kenney CC0 in `public/models/` (Lizenz liegt daneben). Gym-Geräte bauen wir selbst in `src/game/equipmentModels.ts`.
+- Figuren: kantige Kenney "Blocky Characters" (eine Geometrie, Gesichter aus den Texturen), Kleidung je Kundentyp wird in `src/game/outfits.ts` per Code gemalt.
 - Prüfen vor jedem Push: `npm run check` (Typen, Lint, Tests, Build). Grün oder nicht pushen.
 - Am Handy testen: `docs/XCODE.md`.
 

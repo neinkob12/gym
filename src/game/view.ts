@@ -95,7 +95,7 @@ export class GameView {
     for (const p of [...g.people, g.josef]) {
       alive.add(p.id);
       let v = this.people.get(p.id);
-      if (!v) { v = new CharacterView(p.model, p.staff); scene.add(v.root); this.people.set(p.id, v); }
+      if (!v) { v = new CharacterView(p); scene.add(v.root); this.people.set(p.id, v); }
       v.update(p, p.eqId ? eqById(g, p.eqId) : null, dt);
       let b = this.bubbles.get(p.id);
       if (p.bubble) {
