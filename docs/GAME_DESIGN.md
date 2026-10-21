@@ -130,7 +130,11 @@ Fünf Typen, alle aus einem Figuren-Baukasten (Körperform, Hautfarbe, Frisur, O
 - Alle Menüs fahren von unten hoch, Tabs sitzen wie Karteireiter auf der Kante, Buttons geben beim Drücken nach. **Alles passt ohne Scrollen.**
 - Raum antippen öffnet unten das Raum-Menü: Kennzahlen, Karte des gewählten Geräts (Level, Beschreibung, Kosten, "Verbessern") und ein Raster aller Geräte mit Level-Zahl. Tabs "Geräte" und "Mitarbeiter".
 - "Bauen" öffnet das Bau- und Verwaltungsmenü: Räume (freikaufen), Mitarbeiter, Werbung (Kampagnen wie Flyer, Social Media, Influencer; immer nur eine gleichzeitig).
-- Geräte-Level 1 bis 5 wie bei Hotel Tycoon (im Prototyp drin, Entscheidung offen, siehe `VERGLEICH_HOTEL_TYCOON.md`).
+- **Geräte leveln von Anfang an** (Level 1 bis 5, höheres Level hält länger und macht Kunden zufriedener). Später kommen zusätzlich echte bessere Modelle als neue Geräte.
+- **Nur eine Währung** (Geld) in V1. Keine zweite Ressource wie die Energie bei Hotel Tycoon.
+- Feedback ohne Text-Meldungen, wo es geht: Aufräumen und Reparieren zeigen einen kurzen Funkel-Effekt, Bezahlen fliegende Geldscheine. Hinweise erscheinen unten über den Buttons, nie mitten im Bild.
+- Menüs lassen sich per Wischen nach unten schließen.
+- Wände wie bei Hotel Tycoon: kräftig mit heller Kappe und Sockelleiste, Außenfassade ums Grundstück (hinten hoch mit Fenstern, vorne niedrig), Türrahmen an Durchgängen.
 - Nachts sind die Räume beleuchtet, nur die Umgebung wird dunkler.
 - Animationen nach Vorbild: Leute laufen und trainieren sichtbar, Geldscheine fliegen beim Bezahlen hoch, kaputte Geräte rauchen.
 - Animationen: Laufen in jede Richtung, eigene Trainings-Pose pro Gerät (Bankdrücken, Kniebeugen, Curls, Latzug, Laufen, Trinken).

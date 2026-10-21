@@ -63,8 +63,11 @@ button { font-family: inherit; }
 .task:focus-visible, .sq:focus-visible, .build:focus-visible, .btn:focus-visible, .tile:focus-visible, .tab:focus-visible { outline: 2px solid var(--level); outline-offset: 2px; }
 
 /* ---- Menüs (Bottom Sheets) ---- */
-.sheet { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px max(12px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 12px) max(12px, env(safe-area-inset-left, 0px)); background: var(--sheet); color: #fff; box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.25); overflow: visible; }
+.sheet { touch-action: none; position: absolute; left: 0; right: 0; bottom: 0; padding: 12px max(12px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 12px) max(12px, env(safe-area-inset-left, 0px)); background: var(--sheet); color: #fff; box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.25); overflow: visible; }
 .sheet:not([hidden]) { animation: sheet-up 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.15); }
+.sheet.dragging { animation: none; transition: none; }
+.sheet.snap { transition: transform 0.18s ease-out; }
+.grip { width: 38px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.22); margin: -4px auto 8px; }
 @keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .tabbar { position: absolute; left: 0; right: 0; top: -36px; display: flex; gap: 4px; padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px)); }
 .tab { height: 36px; padding: 0 14px; border: 0; border-radius: 7px 7px 0 0; background: #3a424d; color: #b9c2cc; font-size: 13.5px; font-weight: 800; cursor: pointer; }
@@ -120,10 +123,10 @@ button { font-family: inherit; }
 .dialog p { margin: 3px 0 10px; font-size: 14.5px; line-height: 1.45; font-weight: 600; min-width: 0; }
 .dialog .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .dialog .dots { color: var(--muted); font-size: 12px; font-weight: 700; }
-.toast { position: absolute; left: 50%; transform: translateX(-50%); top: 33%; max-width: min(400px, calc(100% - 32px)); padding: 9px 13px; border-radius: 7px; background: var(--hud); color: var(--on-hud); font-size: 13.5px; font-weight: 700; line-height: 1.4; text-align: center; pointer-events: none; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+.toast { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 78px); max-width: min(400px, calc(100% - 32px)); padding: 9px 13px; border-radius: 7px; background: var(--hud); color: var(--on-hud); font-size: 13.5px; font-weight: 700; line-height: 1.4; text-align: center; pointer-events: none; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
 .toast .rev-stars { color: var(--gold); margin-right: 6px; }
 .toast .rev-who { color: var(--on-hud-dim); font-size: 11.5px; display: block; margin-top: 2px; }
-#review { top: calc(33% + 54px); }
+#review { bottom: calc(env(safe-area-inset-bottom, 0px) + 132px); }
 .fail { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font-size: 15px; }
 @media (prefers-reduced-motion: reduce) { .sheet:not([hidden]), .dialog:not([hidden]) { animation: none; } .build, .btn, .tile { transition: none; } }
 </style>
@@ -163,6 +166,7 @@ button { font-family: inherit; }
       <button class="tab" type="button" id="tab-btn-eq" aria-pressed="true">Geräte</button>
       <button class="tab" type="button" id="tab-btn-team" aria-pressed="false">Mitarbeiter</button>
     </div>
+    <div class="grip" aria-hidden="true"></div>
     <div class="sheet-title">
       <h2>Kraftraum</h2>
       <div class="kpis"><span class="kpi"><span class="k">€/h</span><span id="kpi-income">0</span></span><span class="kpi"><span class="k">Gäste</span><span id="kpi-guests">0</span></span><span class="kpi"><span class="k">Zustand</span><span id="kpi-cond">0 %</span></span></div>
@@ -189,6 +193,7 @@ button { font-family: inherit; }
       <button class="tab" type="button" data-mtab="team" aria-pressed="false">Team</button>
       <button class="tab" type="button" data-mtab="ads" aria-pressed="false">Werbung</button>
     </div>
+    <div class="grip" aria-hidden="true"></div>
     <div class="sheet-title"><h2 id="mgmt-title">Räume</h2></div>
     <div id="mgmt-body"></div>
   </section>
@@ -263,7 +268,7 @@ const PALETTES = [
       wall: "#d3dae1", wallLobby: "#dde2e6", cap: "#ffffff", trim: "#4a9fe8", pad: "#3f87c9", padHi: "#6aa8de", staff: "#4a9fe8", deskFace: "#4a9fe8", bg: "#e6ebef" } },
   { name: "Anthrazit", ui: { "--accent": "#3b8fe0", "--accent-soft": "#e4effb", "--level": "#14b8a6", "--bg": "#dfe4e8" },
     scene: { hall: ["#cfd4da", "#c6ccd3"], lobby: ["#e6e8eb", "#dee1e5"], corridor: "#b3bac3", lot: ["#d4d8dc", "#cdd2d7"], lotEdge: "#a9b2bb",
-      wall: "#55606e", wallLobby: "#66717f", cap: "#eef1f4", trim: "#14b8a6", pad: "#2c3644", padHi: "#465365", staff: "#3b8fe0", deskFace: "#2c3644", bg: "#dfe4e8" } },
+      wall: "#55606e", wallLobby: "#66717f", cap: "#eef1f4", facade: "#4a535e", base: "#3c4450", door: "#2c3644", trim: "#14b8a6", pad: "#2c3644", padHi: "#465365", staff: "#3b8fe0", deskFace: "#2c3644", bg: "#dfe4e8" } },
   { name: "Blaugrau", ui: { "--accent": "#5aa7e6", "--accent-soft": "#e8f3fc", "--level": "#20b2aa", "--bg": "#e3e9ef" },
     scene: { hall: ["#d6dde5", "#cdd5de"], lobby: ["#edf1f5", "#e5eaf0"], corridor: "#bcc7d2", lot: ["#d9dfe5", "#d3d9e0"], lotEdge: "#b3c0cc",
       wall: "#a7b9cb", wallLobby: "#bac8d6", cap: "#f8fafc", trim: "#20b2aa", pad: "#5aa7e6", padHi: "#86bfee", staff: "#20b2aa", deskFace: "#20b2aa", bg: "#e3e9ef" } },
@@ -349,8 +354,9 @@ function floorColor(c, x, y) {
   if (c === "#" || c === "-") return C.corridor;
   return C.lot[a];
 }
-// Dünne Wände an den Raumkanten: hinten (Nord, West) hoch, wenn dahinter eine Baufläche liegt, sonst niedrig geschnitten
-const WT = 0.12, TALL = 1.15, LOW = 0.16;
+// Wände wie bei Hotel Tycoon: kräftige Wände mit heller Kappe und Sockelleiste. Hinten (Nord, West) hoch, wenn dahinter
+// eine Baufläche liegt, sonst niedrig geschnitten. Dazu eine Außenfassade ums ganze Grundstück, hinten hoch mit Fenstern.
+const WT = 0.2, TALL = 1.2, LOW = 0.22, CAP = 0.05;
 let structure = null;
 function buildStructure() {
   if (structure) scene.remove(structure);
@@ -362,29 +368,69 @@ function buildStructure() {
   structure.add(fb.build());
 
   const wb = faceBuilder();
+  const wall = (x0, z0, x1, z1, h, inner, innerSide, outer) => {
+    // Wandkörper, Innenseite in Raumfarbe, Kappe etwas breiter und hell
+    wb.boxFaces(x0, 0, z0, x1, h, z1, (k) => (k === "top" ? null : k === innerSide ? inner : outer));
+    wb.boxFaces(x0 - 0.015, h, z0 - 0.015, x1 + 0.015, h + CAP, z1 + 0.015, (k) => (k === "top" ? C.cap : shade(C.cap, 0.88)));
+  };
   for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
     const c = MAP[y][x];
     const room = isActive(c), lot = !!REGIONS[c];
     if (!room && !lot) continue;
     for (const [dx, dy] of [[0, -1], [-1, 0], [0, 1], [1, 0]]) {
       if (at(x + dx, y + dy) !== "#") continue;
-      const back = dx === -1 || dy === -1;
-      const h = lot ? 0.05 : back && REGIONS[at(x + 2 * dx, y + 2 * dy)] ? TALL : LOW;
       const x0 = dx === 1 ? x + 1 - WT : x, x1 = dx === -1 ? x + WT : x + 1;
       const z0 = dy === 1 ? y + 1 - WT : y, z1 = dy === -1 ? y + WT : y + 1;
-      const side = lot ? C.lotEdge : c === "." ? C.wall : C.wallLobby;
-      wb.boxFaces(x0, 0, z0, x1, h, z1, (k) => (k === "top" ? C.cap : side));
+      if (lot) { wb.boxFaces(x0, 0, z0, x1, 0.06, z1, (k) => (k === "top" ? C.cap : C.lotEdge)); continue; }
+      const back = dx === -1 || dy === -1;
+      const h = back && REGIONS[at(x + 2 * dx, y + 2 * dy)] ? TALL : LOW;
+      const innerSide = dx === 1 ? "-x" : dx === -1 ? "+x" : dy === 1 ? "-z" : "+z";
+      const col = c === "." ? C.wall : C.wallLobby;
+      wall(x0, z0, x1, z1, h, col, innerSide, shade(col, 0.82));
+      // Sockelleiste auf der Innenseite
+      const bx0 = dx === -1 ? x1 : dx === 1 ? x0 - 0.012 : x0, bx1 = dx === -1 ? x1 + 0.012 : dx === 1 ? x0 : x1;
+      const bz0 = dy === -1 ? z1 : dy === 1 ? z0 - 0.012 : z0, bz1 = dy === -1 ? z1 + 0.012 : dy === 1 ? z0 : z1;
+      wb.boxFaces(bx0, 0, bz0, bx1, 0.07, bz1, (k) => (k === "top" ? C.base : C.base));
     }
+  }
+  // Außenfassade
+  const FT = 0.28;
+  for (let x = 0; x < COLS; x++) {
+    if (MAP[0][x] === "#") wall(x, 0, x + 1, FT, 1.45, C.facade, "+z", C.facade);
+    if (MAP[28][x] === "#") wall(x, 29 - FT, x + 1, 29, 0.32, C.facade, "-z", C.facade);
+  }
+  for (let y = 0; y < 29; y++) {
+    wall(0, y, FT, y + 1, 1.45, C.facade, "+x", C.facade);
+    wall(COLS - FT, y, COLS, y + 1, 0.32, C.facade, "-x", C.facade);
   }
   const wm = wb.build(); wm.castShadow = true; structure.add(wm);
 
   const deco = new THREE.Group(); structure.add(deco);
-  B(deco, 10.12, 12.12, 7.88, 0.02, 2, 13, C.trim);        // Zierleiste hinten
-  B(deco, 10.12, 12.12, 0.02, 9.88, 2, 13, C.trim);        // Zierleiste links
-  B(deco, 11.9, 12.12, 2.6, 0.04, 20, 13, C.metal);        // Spiegel
-  B(deco, 12.0, 12.14, 2.4, 0.04, 18, 14, "#d7eef9");
-  B(deco, 10.12, 17.2, 0.04, 1.0, 12, 16, C.trim);         // Poster
-  B(deco, 10.12, 13.6, 0.04, 0.8, 12, 16, "#f5b014");
+  // Fenster in der hohen Fassade
+  const glassMat = new THREE.MeshLambertMaterial({ color: "#bfe1f3", emissive: "#0d2233" });
+  for (let x = 2; x < COLS - 1; x += 3) {
+    mesh(geo(1.1, 0.62, 0.04), mat(C.cap), x + 0.5, 0.82, FT + 0.01, deco);
+    mesh(geo(1.0, 0.54, 0.05), glassMat, x + 0.5, 0.82, FT + 0.012, deco);
+    mesh(geo(0.04, 0.54, 0.06), mat(C.cap), x + 0.5, 0.82, FT + 0.015, deco);
+  }
+  for (let y = 2; y < 28; y += 3) {
+    mesh(geo(0.04, 0.62, 1.1), mat(C.cap), FT + 0.01, 0.82, y + 0.5, deco);
+    mesh(geo(0.05, 0.54, 1.0), glassMat, FT + 0.012, 0.82, y + 0.5, deco);
+    mesh(geo(0.06, 0.54, 0.04), mat(C.cap), FT + 0.015, 0.82, y + 0.5, deco);
+  }
+  // Türrahmen zwischen Gym und Lobby und am Eingang
+  for (const [x0, z, w] of [[13, 22.5, 2], [13, 28.5, 2]]) {
+    mesh(geo(0.12, 0.95, 0.24), mat(C.door), x0 + 0.06, 0.475, z, deco);
+    mesh(geo(0.12, 0.95, 0.24), mat(C.door), x0 + w - 0.06, 0.475, z, deco);
+    mesh(geo(w, 0.14, 0.24), mat(C.door), x0 + w / 2, 1.0, z, deco);
+    mesh(geo(w - 0.4, 0.1, 0.26), mat(C.trim), x0 + w / 2, 1.0, z, deco);
+  }
+  B(deco, 10.2, 12.2, 7.8, 0.02, 2, 13, C.trim);          // Zierleiste hinten
+  B(deco, 10.2, 12.2, 0.02, 9.8, 2, 13, C.trim);          // Zierleiste links
+  B(deco, 11.9, 12.2, 2.6, 0.04, 20, 13, C.metal);         // Spiegel
+  B(deco, 12.0, 12.22, 2.4, 0.04, 18, 14, "#d7eef9");
+  B(deco, 10.2, 17.2, 0.04, 1.0, 12, 16, C.trim);          // Poster
+  B(deco, 10.2, 13.6, 0.04, 0.8, 12, 16, "#f5b014");
   B(deco, 15.05, 12.15, 1.9, 1.8, 1, 0, C.platform);       // Hebeplattform
   B(deco, 13.1, 28.1, 1.8, 0.8, 0.4, 0, C.mat);            // Fußmatte
   for (const [x, y] of OPENINGS) {
@@ -770,6 +816,19 @@ const ICONS = {
   spa: bubbleTex((k) => { k.fillStyle = "#3ea0ff"; k.beginPath(); k.ellipse(64, 66, 30, 14, 0, 0, 7); k.fill(); k.strokeStyle = "#3ea0ff"; k.lineWidth = 6; for (const x of [50, 64, 78]) { k.beginPath(); k.moveTo(x, 50); k.quadraticCurveTo(x - 8, 40, x, 30); k.stroke(); } }),
 };
 const BILL = iconTexture((k) => { k.fillStyle = "#1f8d4e"; k.fillRect(8, 30, 112, 68); k.fillStyle = "#33c46f"; k.fillRect(14, 36, 100, 56); k.fillStyle = "#1f8d4e"; k.font = "bold 44px sans-serif"; k.textAlign = "center"; k.textBaseline = "middle"; k.fillText("€", 64, 66); });
+const SPARK = iconTexture((k) => { k.fillStyle = "#ffffff"; k.beginPath(); k.moveTo(64, 6); k.quadraticCurveTo(70, 58, 122, 64); k.quadraticCurveTo(70, 70, 64, 122); k.quadraticCurveTo(58, 70, 6, 64); k.quadraticCurveTo(58, 58, 64, 6); k.fill(); });
+const fx = [];
+function sparkle(x, z, color = "#9ff3ea") {
+  for (let i = 0; i < 9; i++) {
+    const s = sprite(SPARK, 0.22); s.material = s.material.clone(); s.material.color.set(i % 3 === 0 ? "#ffffff" : color);
+    const a = (i / 9) * Math.PI * 2;
+    s.position.set(x, 0.15, z);
+    fx.push({ s, t: 0.65, vx: Math.cos(a) * 0.9, vz: Math.sin(a) * 0.9, vy: rnd(0.6, 1.2) });
+  }
+  const ringM = new THREE.Mesh(new THREE.RingGeometry(0.1, 0.16, 28), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9, depthWrite: false }));
+  ringM.rotation.x = -Math.PI / 2; ringM.position.set(x, 0.02, z); scene.add(ringM);
+  fx.push({ ring: ringM, t: 0.5 });
+}
 const SMOKE = iconTexture((k) => { const g = k.createRadialGradient(64, 64, 4, 64, 64, 60); g.addColorStop(0, "rgba(140,145,155,1)"); g.addColorStop(1, "rgba(140,145,155,0)"); k.fillStyle = g; k.fillRect(0, 0, 128, 128); });
 function sprite(tex, s) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false })); sp.scale.set(s, s, s); sp.renderOrder = 10; scene.add(sp); return sp; }
 
@@ -852,7 +911,7 @@ function showReview(p, score, mess) {
   const st = document.createElement("span"); st.className = "rev-stars"; st.textContent = "★".repeat(n) + "☆".repeat(5 - n);
   const tx = document.createElement("span"); tx.textContent = "„" + pick(pool) + "“";
   const who = document.createElement("span"); who.className = "rev-who"; who.textContent = "Bewertung von " + TYPES[p.type].label;
-  el.append(st, tx, who); el.hidden = false; reviewT = 3.4;
+  el.append(st, tx, who); el.hidden = false; reviewT = 3.4; placeToasts();
 }
 function walk(p, dt) {
   if (!p.path.length) { p.moving = false; return true; }
@@ -956,7 +1015,7 @@ function updateJosef(dt) {
     j.timer -= dt;
     if (j.timer <= 0) {
       const e = j.job; e.wear = 100; e.broken = false; e.queued = false;
-      popup(j.x / 32, 1.5, (j.y - 8) / 32, "Repariert", "ok");
+      sparkle((e.x0 + e.x1 + 1) / 2, (e.y0 + e.y1 + 1) / 2, "#8cc4ff");
       j.pose = "stand"; j.job = null; j.state = "home"; goTo(j, ...JOSEF_HOME);
     }
   } else if (j.state === "home") { if (walk(j, dt)) j.state = "idle"; }
@@ -974,6 +1033,12 @@ function step(dt) {
     const s = sprite(SMOKE, 0.4); s.material = s.material.clone(); s.position.set((e.x0 + e.x1 + 1) / 2 + rnd(-0.3, 0.3), 0.6, (e.y0 + e.y1 + 1) / 2 + rnd(-0.3, 0.3)); smoke.push({ s, t: 1.4 });
   }
   for (const s of smoke) { s.t -= dt; s.s.position.y += dt * 0.6; s.s.material.opacity = Math.max(0, s.t / 1.4) * 0.8; s.s.scale.setScalar(0.4 + (1.4 - s.t) * 0.3); }
+  for (let i = fx.length - 1; i >= 0; i--) {
+    const f = fx[i]; f.t -= dt;
+    if (f.ring) { f.ring.scale.setScalar(1 + (0.5 - f.t) * 9); f.ring.material.opacity = Math.max(0, f.t * 1.8); }
+    else { f.s.position.x += f.vx * dt; f.s.position.z += f.vz * dt; f.s.position.y += f.vy * dt; f.s.material.opacity = Math.max(0, f.t / 0.65); f.s.scale.setScalar(0.22 * (0.4 + f.t)); }
+    if (f.t <= 0) { scene.remove(f.ring || f.s); fx.splice(i, 1); }
+  }
   for (const b of bills) { b.t -= dt; b.s.position.y += dt * 1.2; b.s.position.x += b.vx * dt; b.s.material.opacity = Math.min(1, b.t * 2); }
   for (const a of [smoke, bills]) for (let i = a.length - 1; i >= 0; i--) if (a[i].t <= 0) { scene.remove(a[i].s); a.splice(i, 1); }
   for (const a of [popups, says]) for (let i = a.length - 1; i >= 0; i--) { a[i].t -= dt; if (a[i].t <= 0) a.splice(i, 1); }
@@ -1133,7 +1198,14 @@ function hud() {
   if (last.litter !== litter.length) { $("litter-count").textContent = litter.length; $("clean").hidden = litter.length === 0; last.litter = litter.length; }
 }
 let toastT = 0;
-function toast(text) { const el = $("toast"); el.textContent = text; el.hidden = false; toastT = 2.6; }
+// Hinweise sitzen unten über den Buttons, bei offenem Menü direkt über dessen Karteireitern
+function placeToasts() {
+  const open = [$("sheet"), $("mgmt")].find((x) => !x.hidden);
+  const base = open ? open.offsetHeight + 46 : null;
+  $("toast").style.bottom = base ? base + "px" : "";
+  $("review").style.bottom = base ? base + 54 + "px" : "";
+}
+function toast(text) { const el = $("toast"); el.textContent = text; el.hidden = false; toastT = 2.6; placeToasts(); }
 
 // ---------- Eingabe ----------
 const pointers = new Map();
@@ -1174,8 +1246,7 @@ function cleanUp(i) {
   const l = litter.splice(i, 1)[0];
   scene.remove(l.g); scene.remove(l.arrow);
   state.cleaned++; state.ruf = Math.min(5, state.ruf + 0.03);
-  popup(l.tx + l.ox, 0.8, l.ty + l.oz, "Aufgeräumt", "ok");
-  if (state.cleaned === 1) toast("Genau so! Alles mit Pfeil kannst du antippen und wegräumen.");
+  sparkle(l.tx + l.ox, l.ty + l.oz);
 }
 function tap(sx, sy) {
   // Müll: großzügig um Gegenstand und Pfeil
@@ -1306,10 +1377,38 @@ function renderSheet() {
 function openSheet(tab, e) {
   closeMgmt();
   sheetTab = tab || "eq"; if (e) selEq = e;
-  $("sheet").hidden = false; renderSheet();
+  $("sheet").hidden = false; renderSheet(); placeToasts();
   if (sheetTab === "eq") focusEq(selEq);
 }
-function closeSheet() { $("sheet").hidden = true; ring.visible = false; }
+function closeSheet() { $("sheet").hidden = true; ring.visible = false; placeToasts(); }
+// Nach unten wischen schließt ein Menü, kurzes Ziehen federt zurück
+function swipeToClose(el, close) {
+  let start = null, dy = 0, dragged = false;
+  el.addEventListener("pointerdown", (e) => { start = e.clientY; dy = 0; dragged = false; });
+  el.addEventListener("pointermove", (e) => {
+    if (start === null) return;
+    dy = Math.max(0, e.clientY - start);
+    if (!dragged && dy > 8) { dragged = true; el.classList.add("dragging"); try { el.setPointerCapture(e.pointerId); } catch (err) {} }
+    if (dragged) el.style.transform = "translateY(" + dy + "px)";
+  });
+  const end = () => {
+    if (start === null) return;
+    start = null; el.classList.remove("dragging");
+    if (!dragged) return;
+    el.classList.add("snap");
+    if (dy > Math.min(110, el.offsetHeight * 0.25)) {
+      el.style.transform = "translateY(100%)";
+      setTimeout(() => { el.classList.remove("snap"); el.style.transform = ""; close(); }, 180);
+    } else {
+      el.style.transform = "";
+      setTimeout(() => el.classList.remove("snap"), 180);
+    }
+  };
+  el.addEventListener("pointerup", end); el.addEventListener("pointercancel", end);
+  // ein Wisch soll keinen Button auslösen
+  el.addEventListener("click", (e) => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
+}
+swipeToClose($("sheet"), closeSheet);
 
 // ---------- Bau- und Verwaltungsmenü ----------
 const ROOM_COST = { u: 2500, b: 6000, w: 9000, k: 14000, n: 20000, f: 26000, x: 40000 };
@@ -1374,8 +1473,9 @@ function renderMgmt() {
     body.prepend(h);
   }
 }
-function openMgmt(tab) { closeSheet(); mgmtTab = tab || mgmtTab; $("mgmt").hidden = false; renderMgmt(); }
-function closeMgmt() { $("mgmt").hidden = true; }
+function openMgmt(tab) { closeSheet(); mgmtTab = tab || mgmtTab; $("mgmt").hidden = false; renderMgmt(); placeToasts(); }
+function closeMgmt() { $("mgmt").hidden = true; placeToasts(); }
+swipeToClose($("mgmt"), closeMgmt);
 $("mgmt-close").addEventListener("click", closeMgmt);
 document.querySelectorAll("[data-mtab]").forEach((b) => b.addEventListener("click", () => { mgmtTab = b.dataset.mtab; renderMgmt(); }));
 $("sheet-close").addEventListener("click", closeSheet);

@@ -4,8 +4,8 @@ Etappen bis zur ersten TestFlight-Version. Jede Etappe endet mit etwas, das du a
 
 | # | Etappe | Ergebnis am Handy |
 | --- | --- | --- |
-| E0 | **Planung** (jetzt) | Stil-Prototyp, dieses Doku-Paket |
-| E1 | Fundament | Vite + Phaser + TypeScript, Vercel-Deploy, Checks (Typen, Lint, Tests), Karte mit Kamera, Asset-Pipeline für Pixel Art |
+| E0 | **Planung** (fertig) | 3D-Prototyp `prototypes/3d/`, dieses Doku-Paket |
+| E1 | Fundament | Vite + Three.js + TypeScript, Vercel-Deploy, Checks (Typen, Lint, Tests), Karte mit Iso-Kamera, Laden von glTF-Modellen (CC0-Pakete) |
 | E2 | Kern-Simulation | Kunden kommen, checken ein, trainieren, gehen. Pfadfindung, Verschleiß, Dreck, Geld, Ruf, Tag/Nacht 24/7 |
 | E3 | Ranz-Start + Tutorial | geerbtes Gym, Josef führt durch, Aufräumen und Reparieren per Tippen |
 | E4 | Bauen | Bau-Modus im Raster, Geräte-Katalog, Deko mit Ambiente, Bereiche freischalten, Level |

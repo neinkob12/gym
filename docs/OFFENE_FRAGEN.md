@@ -4,7 +4,7 @@ Was ich von dir brauche, bevor E1 startet.
 
 ## 1. Look
 
-Neuer Prototyp `prototypes/3d/` im Low-Poly-3D-Stil nach Hotel Empire Tycoon. Passt die Richtung? Was soll anders sein (Farben, Kamerawinkel, Figurengröße, Stadt drumherum)?
+Entschieden: Low-Poly-3D nach Vorbild Hotel Empire Tycoon, Palette Anthrazit, kantiger HUD, Menüs ohne Scrollen und per Wischen schließbar. Details in `GAME_DESIGN.md`.
 
 ## 2. Die Legende (Markus Rühl)
 

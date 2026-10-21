@@ -28,7 +28,7 @@ Der Prototyp zeigt also **wie** sich das Spiel anfühlt und bedient. Er zeigt no
 | Raum-Menü | Raum antippen, unten Karte mit Item, Beschreibung, Kosten, "Verbessern", darunter Raster aller Items mit Level | Genau so für den Kraftraum, mit Tab "Mitarbeiter", Ring markiert das gewählte Gerät | Für jeden Raum, mit Vorschau des nächsten Levels und kurzer Upgrade-Animation |
 | Bau- und Verwaltungsmenü | Hammer-Button: Bauen, Mitarbeiter, Werbung | Hammer öffnet Räume, Mitarbeiter, Werbung (3 Kampagnen, eine gleichzeitig) | Plus Räume wirklich freikaufen, Mitarbeiter einstellen und kündigen, Statistik mit Trainingsplänen und Stammkunden |
 | Geld-Feedback | Grüne Scheine fliegen aus den Räumen | Grüne Scheine beim Einchecken | Scheine über jedem Raum, Sammeln per Tippen |
-| Zweite Ressource | Blitz-Energie für Upgrades | keine | offen, siehe Fragen |
+| Zweite Ressource | Blitz-Energie für Upgrades | keine | entschieden: keine in V1 |
 
 ## Was der Prototyp absichtlich nicht hat
 
@@ -39,7 +39,7 @@ Der Prototyp zeigt also **wie** sich das Spiel anfühlt und bedient. Er zeigt no
 
 ## Fragen an dich
 
-1. Hotel Tycoon hat neben Geld eine zweite Ressource (Blitz/Energie), die man für Upgrades braucht. Willst du so etwas für das Gym, zum Beispiel "Strom" oder "Motivation"?
-2. Jedes Gerät hat im Prototyp jetzt Level wie bei Hotel Tycoon. Bei Frage 12 wolltest du Upgrades erst weglassen. Sollen wir beides kombinieren: Level 1 bis 5 pro Gerät, danach gegen ein echtes besseres Modell tauschen?
+1. ~~Zweite Ressource?~~ Entschieden: erstmal nicht.
+2. ~~Geräte-Level?~~ Entschieden: Geräte leveln von Anfang an.
 3. ~~Welche Palette?~~ Entschieden: Anthrazit.
 4. ~~CC0-Modellpakete?~~ Entschieden: ja, als Grundlage.
